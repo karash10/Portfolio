@@ -24,7 +24,6 @@ export default function About() {
               <dd className="bg-cyan-900/50 text-cyan-300 text-sm font-medium px-3 py-1 rounded-full">Hugging Face</dd>
               <dd className="bg-cyan-900/50 text-cyan-300 text-sm font-medium px-3 py-1 rounded-full">Transformers</dd>
               <dd className="bg-cyan-900/50 text-cyan-300 text-sm font-medium px-3 py-1 rounded-full">LangChain</dd>
-              <dd className="bg-cyan-900/50 text-cyan-300 text-sm font-medium px-3 py-1 rounded-full">Gemini</dd>
               <dd className="bg-cyan-900/50 text-cyan-300 text-sm font-medium px-3 py-1 rounded-full">LLMs</dd>
               <dd className="bg-cyan-900/50 text-cyan-300 text-sm font-medium px-3 py-1 rounded-full">GANs</dd>
               <dd className="bg-cyan-900/50 text-cyan-300 text-sm font-medium px-3 py-1 rounded-full">XAI</dd>
