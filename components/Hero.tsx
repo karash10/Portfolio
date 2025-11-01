@@ -20,7 +20,7 @@ export default function Hero() {
             <a href="#contact" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-slate-900 bg-cyan-400 hover:bg-cyan-300 transition-colors duration-300 shadow-lg hover:shadow-cyan-400/30 transform hover:scale-105">
               Get In Touch
             </a>
-            <a href="./K_Harshit_Resume.pdf" download="K Harshit.pdf" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-slate-600 text-base font-medium rounded-md text-cyan-300 bg-slate-800/60 hover:bg-slate-700/80 transition-colors duration-300">
+            <a href="/K Harshit.pdf" download="K Harshit.pdf" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-slate-600 text-base font-medium rounded-md text-cyan-300 bg-slate-800/60 hover:bg-slate-700/80 transition-colors duration-300">
               Download Resume
             </a>
           </div>
