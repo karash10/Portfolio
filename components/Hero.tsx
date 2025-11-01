@@ -7,11 +7,6 @@ export default function Hero() {
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight">
             K Harshit
           </h1>
-          
-          <h2 className="mt-4 text-xl sm:text-2xl text-cyan-300 font-medium">
-            Cybersecurity Specialist & Deep Learning Practitioner
-          </h2>
-          
           <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-300">
             A Computer Science student with a focus on building secure and intelligent systems.
           </p>

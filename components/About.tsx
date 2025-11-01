@@ -6,7 +6,7 @@ export default function About() {
           About Me
         </h2>
         <p className="text-xl text-slate-300 max-w-3xl mx-auto text-center mb-16">
-          I'm a detail-oriented Computer Science student passionate about the intersection of <strong className="text-cyan-400">Machine Learning</strong>, <strong className="text-cyan-400">Deep Learning</strong>, and <strong className="text-cyan-400">Cybersecurity</strong>. I have hands-on experience developing advanced DL models and secure, scalable software solutions. I'm always eager to learn and apply new technologies to solve challenging problems.
+          I'm a detail-oriented Computer Science student, passionate about the intersection of <strong className="text-cyan-400">Machine Learning</strong>, <strong className="text-cyan-400">Deep Learning</strong>, and <strong className="text-cyan-400">Cybersecurity</strong>. I have hands-on experience developing advanced DL models and secure, scalable software solutions. I'm always eager to learn and apply new technologies to solve challenging problems.
         </p>
 
         <h3 className="text-3xl font-bold text-center text-white mb-12">
