@@ -1,26 +1,42 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Inter', sans-serif;
+    background-color: #0B1120; /* Dark navy background */
+}
+ 
+/* Subtle grid pattern for the hero background */
+.hero-grid-pattern {
+     background-image:
+         linear-gradient(to right, rgba(0, 194, 203, 0.08) 1px, transparent 1px),
+         linear-gradient(to bottom, rgba(0, 194, 203, 0.08) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center;
+}
+
+/* Hover effect for cards */
+.card-hover {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 194, 203, 0); /* Transparent border to prevent layout shift */
+}
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 194, 203, 0.2);
+    border-color: rgba(0, 194, 203, 0.3);
+}
+
+/* Smooth scroll for anchor links */
+html {
+    scroll-behavior: smooth;
+}
+ 
+/* Section fade-in animation */
+.section-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+ 
+.section-fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
