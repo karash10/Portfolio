@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { personal } from "@/data/portfolio";
 import { SectionReveal, Reveal, stagger } from "./Motion";
-import { useTheme } from "./ThemeProvider";
 
 // Lazy-load the 3D scene so it doesn't block SSR or first paint
 const HeroScene = dynamic(() => import("./HeroScene"), {
@@ -13,8 +12,6 @@ const HeroScene = dynamic(() => import("./HeroScene"), {
 });
 
 export default function Hero() {
-  const { theme } = useTheme();
-
   return (
     <SectionReveal
       className="relative min-h-[100dvh] flex items-center"
@@ -37,28 +34,28 @@ export default function Hero() {
             <Reveal>
               <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full glass">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--good)] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--good)]" />
                 </span>
                 <span className="kbd text-[0.72rem] text-[var(--muted)]">Available for opportunities</span>
               </div>
             </Reveal>
 
-            <Reveal as="h1" className="mt-8 section-title text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-[var(--text-strong)] leading-[1.02] drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">
+            <Reveal as="h1" className="mt-8 section-title text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-[var(--text-strong)] leading-[1.02]" style={{ filter: "drop-shadow(var(--hero-text-shadow))" }}>
               <>
                 I build{" "}
-                <span className="bg-gradient-to-r from-cyan-300 via-violet-300 to-emerald-300 bg-clip-text text-transparent">
+                <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(to right, var(--gradient-start), var(--gradient-mid), var(--gradient-end))" }}>
                   secure
                 </span>
                 <br />
-                <span className="bg-gradient-to-r from-violet-300 via-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+                <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(to right, var(--gradient-mid), var(--gradient-end), var(--gradient-start))" }}>
                   intelligent
                 </span>{" "}
                 systems.
               </>
             </Reveal>
 
-            <Reveal as="p" className="mt-6 max-w-xl mx-auto text-lg sm:text-xl text-[var(--muted)] leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)]">
+            <Reveal as="p" className="mt-6 max-w-xl mx-auto text-lg sm:text-xl text-[var(--muted)] leading-relaxed" style={{ filter: "drop-shadow(var(--hero-subtitle-shadow))" }}>
               <>
                 <span className="text-[var(--text-strong)] font-semibold">{personal.name}</span> &mdash; CS undergrad
                 at PES University specializing in LLM security, adversarial ML, and building
@@ -93,6 +90,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5, duration: 0.8 }}
+        aria-hidden="true"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}

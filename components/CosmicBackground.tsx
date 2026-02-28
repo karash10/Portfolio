@@ -51,32 +51,83 @@ function StarsCanvas() {
 
     let animId: number;
     let stars: Star[] = [];
+    let prevWidth = 0;
+    let prevHeight = 0;
+
+    /* Density: how many stars per pixel of area */
+    const DENSITY = 1 / 3500;
+    const MAX_STARS = 1200;
+
+    function makeStar(xMax: number, yMin: number, yMax: number): Star {
+      const r = Math.random();
+      return {
+        x: Math.random() * xMax,
+        y: yMin + Math.random() * (yMax - yMin),
+        r: r < 0.85 ? 0.4 + Math.random() * 0.6 : 1 + Math.random() * 1.2,
+        baseAlpha: 0.25 + Math.random() * 0.65,
+        twinkleSpeed: 0.3 + Math.random() * 1.8,
+        twinkleOffset: Math.random() * Math.PI * 2,
+        colorIdx: Math.floor(Math.random() * STAR_COLORS.length),
+      };
+    }
 
     function resize() {
-      canvas!.width = window.innerWidth;
-      canvas!.height = document.documentElement.scrollHeight;
-      generateStars();
+      const newW = window.innerWidth;
+      const newH = document.documentElement.scrollHeight;
+      canvas!.width = newW;
+      canvas!.height = newH;
+
+      if (prevWidth === 0 || prevHeight === 0) {
+        // First render — generate all stars from scratch
+        const count = Math.min(Math.floor(newW * newH * DENSITY), MAX_STARS);
+        stars = [];
+        for (let i = 0; i < count; i++) {
+          stars.push(makeStar(newW, 0, newH));
+        }
+      } else {
+        // Width changed — redistribute x positions proportionally
+        if (newW !== prevWidth) {
+          const scale = newW / prevWidth;
+          for (const s of stars) {
+            s.x *= scale;
+          }
+        }
+
+        // Height increased — keep existing stars, add new ones for the extended area
+        if (newH > prevHeight) {
+          const extraArea = newW * (newH - prevHeight);
+          const targetTotal = Math.min(Math.floor(newW * newH * DENSITY), MAX_STARS);
+          const newCount = Math.max(0, targetTotal - stars.length);
+          for (let i = 0; i < newCount; i++) {
+            stars.push(makeStar(newW, prevHeight, newH));
+          }
+        }
+
+        // Height decreased — remove stars that are now below the visible area
+        if (newH < prevHeight) {
+          stars = stars.filter((s) => s.y <= newH);
+        }
+      }
+
+      prevWidth = newW;
+      prevHeight = newH;
     }
 
-    function generateStars() {
-      const area = canvas!.width * canvas!.height;
-      const count = Math.min(Math.floor(area / 3500), 1200);
-      stars = [];
-      for (let i = 0; i < count; i++) {
-        const r = Math.random();
-        stars.push({
-          x: Math.random() * canvas!.width,
-          y: Math.random() * canvas!.height,
-          r: r < 0.85 ? 0.4 + Math.random() * 0.6 : 1 + Math.random() * 1.2,
-          baseAlpha: 0.25 + Math.random() * 0.65,
-          twinkleSpeed: 0.3 + Math.random() * 1.8,
-          twinkleOffset: Math.random() * Math.PI * 2,
-          colorIdx: Math.floor(Math.random() * STAR_COLORS.length),
-        });
-      }
-    }
+    /* ── Throttle to ~30fps & pause when tab is hidden ── */
+    const FRAME_INTERVAL = 1000 / 30; // ~33.3ms
+    let lastDrawTime = 0;
 
     function draw(time: number) {
+      animId = requestAnimationFrame(draw);
+
+      // Skip if tab is hidden
+      if (document.hidden) return;
+
+      // Throttle: only draw if enough time has elapsed
+      const delta = time - lastDrawTime;
+      if (delta < FRAME_INTERVAL) return;
+      lastDrawTime = time - (delta % FRAME_INTERVAL);
+
       ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
       const t = time * 0.001;
       const isLight = themeRef.current === "light";
@@ -100,8 +151,6 @@ function StarsCanvas() {
           ctx!.fill();
         }
       }
-
-      animId = requestAnimationFrame(draw);
     }
 
     resize();

@@ -59,6 +59,9 @@ next-env.d.ts
 Thumbs.db
 ehthumbs.db
 
+# Windows/MinGW accidental redirect file
+nul
+
 # Optional: uncomment if you don't want to track lock files
 # package-lock.json
 # yarn.lock

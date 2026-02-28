@@ -16,9 +16,11 @@ export default function Experience() {
       <FloatingPlanets section="experience" />
       <div className="site-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Experience column */}
-          <motion.div variants={slideLeft}>
-            <h2 className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">Experience</h2>
+          {/* Experience column — appears first on all screens */}
+          <motion.div variants={slideLeft} className="order-1">
+            <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">
+              Experience
+            </Reveal>
 
             <motion.div className="space-y-6" variants={stagger(0.1)}>
               {experience.map((exp) => (
@@ -40,7 +42,7 @@ export default function Experience() {
                   <ul className="mt-4 space-y-2.5">
                     {exp.bullets.map((b, i) => (
                       <li key={i} className="flex items-start gap-2.5 text-sm text-[var(--muted)] leading-relaxed">
-                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-cyan-400/60 shrink-0" />
+                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--accent)] opacity-60 shrink-0" />
                         {b}
                       </li>
                     ))}
@@ -59,31 +61,13 @@ export default function Experience() {
                 </motion.div>
               ))}
             </motion.div>
-
-            {/* Achievements */}
-            <h2 className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mt-12 mb-8">
-              Achievements
-            </h2>
-            <motion.div className="space-y-4" variants={stagger(0.1)}>
-              {achievements.map((a) => (
-                <motion.div
-                  key={a.title}
-                  variants={fadeUp}
-                  className="glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="h-3 w-3 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 shrink-0" />
-                    <h3 className="text-lg font-semibold text-[var(--text-strong)]">{a.title}</h3>
-                  </div>
-                  <p className="mt-2 text-[var(--muted-2)] text-sm">{a.description}</p>
-                </motion.div>
-              ))}
-            </motion.div>
           </motion.div>
 
-          {/* Education + Certifications column */}
-          <motion.div variants={slideRight}>
-            <h2 className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">Education</h2>
+          {/* Education column — appears second on mobile (right after Experience) */}
+          <motion.div variants={slideRight} className="order-2 lg:order-2">
+            <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">
+              Education
+            </Reveal>
 
             <motion.div className="space-y-6" variants={stagger(0.1)}>
               {education.map((edu) => (
@@ -114,11 +98,35 @@ export default function Experience() {
                 </motion.div>
               ))}
             </motion.div>
+          </motion.div>
 
-            {/* Certifications */}
-            <h2 className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mt-12 mb-8">
+          {/* Achievements — third on mobile */}
+          <motion.div variants={slideLeft} className="order-3 lg:order-3">
+            <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">
+              Achievements
+            </Reveal>
+            <motion.div className="space-y-4" variants={stagger(0.1)}>
+              {achievements.map((a) => (
+                <motion.div
+                  key={a.title}
+                  variants={fadeUp}
+                  className="glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="h-3 w-3 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 shrink-0" />
+                    <h3 className="text-lg font-semibold text-[var(--text-strong)]">{a.title}</h3>
+                  </div>
+                  <p className="mt-2 text-[var(--muted-2)] text-sm">{a.description}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Certifications — fourth on mobile */}
+          <motion.div variants={slideRight} className="order-4 lg:order-4">
+            <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">
               Certifications
-            </h2>
+            </Reveal>
             <motion.div className="space-y-4" variants={stagger(0.1)}>
               {certifications.map((cert) => (
                 <motion.div

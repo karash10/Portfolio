@@ -62,14 +62,17 @@ const themeScript = `
   try {
     var stored = localStorage.getItem('theme');
     var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var theme = stored || (prefersDark ? 'dark' : 'dark');
+    var theme = stored || (prefersDark ? 'dark' : 'light');
+    var bg = theme === 'dark' ? '#000000' : '#f8fafc';
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
+    document.documentElement.style.backgroundColor = bg;
   } catch(e) {
     document.documentElement.classList.add('dark');
+    document.documentElement.style.backgroundColor = '#000000';
   }
 })();
 `;
@@ -81,6 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="antialiased">
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <ThemeProvider>
           {children}
         </ThemeProvider>

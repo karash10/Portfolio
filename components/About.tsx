@@ -14,13 +14,13 @@ const tagColor: Record<string, string> = {
 
 export default function About() {
   return (
-    <SectionReveal id="about" className="relative py-24 sm:py-32">
+    <SectionReveal id="skills" className="relative py-24 sm:py-32">
       <FloatingPlanets section="skills" />
       <div className="site-container">
         <Reveal as="h2" className="section-title text-4xl sm:text-5xl text-center text-[var(--text-strong)]">
           Technical Skills
         </Reveal>
-        <Reveal as="p" className="mt-4 max-w-2xl mx-auto text-center text-[var(--muted-3)]">
+        <Reveal as="p" className="mt-4 max-w-2xl mx-auto text-center text-[var(--muted-2)]">
           Organized by domain — from core languages to specialized security and ML tooling.
         </Reveal>
 
@@ -39,7 +39,7 @@ export default function About() {
               className="group glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors relative overflow-hidden"
             >
               {/* Subtle gradient overlay on hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--card-glow-from)] via-transparent to-[var(--card-glow-to)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
               <div className="relative">
                 <div className="flex items-center justify-between mb-1">

@@ -5,6 +5,7 @@
 
 html.dark,
 :root.dark {
+  background-color: #000000 !important;
   --bg-0: #000000;
   --bg-1: #000000;
   --surface-0: rgba(255, 255, 255, 0.06);
@@ -24,6 +25,8 @@ html.dark,
   --card-hover-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(34, 211, 238, 0.16);
   --card-hover-border: rgba(34, 211, 238, 0.25);
   --card-glow: rgba(34, 211, 238, 0.12);
+  --card-glow-from: rgba(34, 211, 238, 0.10);
+  --card-glow-to: rgba(167, 139, 250, 0.05);
 
   --pill-bg: rgba(255, 255, 255, 0.045);
   --pill-border: rgba(255, 255, 255, 0.10);
@@ -60,6 +63,12 @@ html.dark,
   --cosmic-opacity: 1;
   --vignette-color: rgba(0, 0, 0, 0.55);
 
+  --hero-text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+  --hero-subtitle-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+  --gradient-start: #67E8F9;
+  --gradient-mid: #C4B5FD;
+  --gradient-end: #6EE7B7;
+
   --radius-xl: 22px;
   --radius-lg: 16px;
   --radius-md: 12px;
@@ -70,6 +79,7 @@ html.dark,
 /* ───────────── Design tokens: LIGHT ───────────── */
 html:not(.dark),
 :root:not(.dark) {
+  background-color: #f8fafc !important;
   --bg-0: #f8fafc;
   --bg-1: #ffffff;
   --surface-0: rgba(15, 23, 42, 0.04);
@@ -89,6 +99,8 @@ html:not(.dark),
   --card-hover-shadow: 0 18px 50px rgba(15, 23, 42, 0.10), 0 0 0 1px rgba(8, 145, 178, 0.18);
   --card-hover-border: rgba(8, 145, 178, 0.30);
   --card-glow: rgba(8, 145, 178, 0.08);
+  --card-glow-from: rgba(8, 145, 178, 0.08);
+  --card-glow-to: rgba(124, 58, 237, 0.04);
 
   --pill-bg: rgba(15, 23, 42, 0.05);
   --pill-border: rgba(15, 23, 42, 0.12);
@@ -124,6 +136,12 @@ html:not(.dark),
 
   --cosmic-opacity: 0.18;
   --vignette-color: rgba(248, 250, 252, 0.30);
+
+  --hero-text-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+  --hero-subtitle-shadow: 0 1px 6px rgba(15, 23, 42, 0.06);
+  --gradient-start: #0891b2;
+  --gradient-mid: #7c3aed;
+  --gradient-end: #059669;
 
   --radius-xl: 22px;
   --radius-lg: 16px;
@@ -265,7 +283,7 @@ section[id] {
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  padding: 0.9rem 1.05rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 999px;
   font-weight: 650;
   line-height: 1;
@@ -350,4 +368,137 @@ section[id] {
 .shine:hover::after {
   transform: translateX(60%);
   opacity: 1;
+}
+
+/* ───────────── Focus visible styles (accessibility) ───────────── */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px var(--bg-0), 0 0 0 6px var(--accent);
+}
+
+/* ───────────── Skip to content link (accessibility) ───────────── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background: var(--accent);
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: none;
+}
+
+/* ───────────── Scroll progress bar ───────────── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 9999;
+  transform-origin: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+
+/* ───────────── Floating space objects keyframes ───────────── */
+@keyframes rocketDrift {
+  0% {
+    top: 95vh;
+    left: -5%;
+    transform: rotate(0deg);
+  }
+  25% {
+    top: 60vh;
+    left: 30%;
+    transform: rotate(3deg);
+  }
+  50% {
+    top: 30vh;
+    left: 65%;
+    transform: rotate(-2deg);
+  }
+  75% {
+    top: 10vh;
+    left: 85%;
+    transform: rotate(4deg);
+  }
+  100% {
+    top: -8vh;
+    left: 105%;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes stationDrift {
+  0% {
+    top: 40vh;
+    left: 105%;
+    transform: rotate(0deg);
+  }
+  20% {
+    top: 35vh;
+    left: 75%;
+    transform: rotate(-3deg);
+  }
+  50% {
+    top: 50vh;
+    left: 40%;
+    transform: rotate(2deg);
+  }
+  80% {
+    top: 45vh;
+    left: 10%;
+    transform: rotate(-2deg);
+  }
+  100% {
+    top: 42vh;
+    left: -8%;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes satelliteDrift {
+  0% {
+    top: -5vh;
+    left: 90%;
+    transform: rotate(20deg);
+  }
+  30% {
+    top: 25vh;
+    left: 60%;
+    transform: rotate(30deg);
+  }
+  60% {
+    top: 55vh;
+    left: 25%;
+    transform: rotate(15deg);
+  }
+  85% {
+    top: 80vh;
+    left: 5%;
+    transform: rotate(25deg);
+  }
+  100% {
+    top: 105vh;
+    left: -5%;
+    transform: rotate(20deg);
+  }
 }

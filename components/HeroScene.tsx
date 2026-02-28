@@ -1,9 +1,42 @@
 "use client";
 
-import { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useRef, useMemo, useState, useEffect } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useTheme } from "./ThemeProvider";
+
+/* ──── Hook: skip rendering on mobile ──── */
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 640px)");
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  return isDesktop;
+}
+
+/* ──── Hook: pause canvas when hero scrolls out of view ──── */
+function useHeroVisible(ref: React.RefObject<HTMLDivElement | null>) {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref]);
+
+  return visible;
+}
 
 /* ─────────────────────────── Glowing Sun ─────────────────────────── */
 function Sun() {
@@ -173,46 +206,6 @@ function Planet({
   );
 }
 
-/* ────────────────────────── Star Field ────────────────────────── */
-function StarField({ count = 300 }: { count?: number }) {
-  const ref = useRef<THREE.Points>(null!);
-
-  const [positions, sizes] = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const sz = new Float32Array(count);
-    for (let i = 0; i < count; i++) {
-      const r = 8 + Math.random() * 15;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      pos[i * 3 + 2] = r * Math.cos(phi);
-      sz[i] = 0.02 + Math.random() * 0.04;
-    }
-    return [pos, sz];
-  }, [count]);
-
-  useFrame((state) => {
-    ref.current.rotation.y = state.clock.getElapsedTime() * 0.008;
-  });
-
-  return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-        <bufferAttribute attach="attributes-size" args={[sizes, 1]} />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.04}
-        color="#94a3b8"
-        transparent
-        opacity={0.5}
-        sizeAttenuation
-      />
-    </points>
-  );
-}
-
 /* ────────────────────── Dust Ring (orbital debris) ────────────────────── */
 function DustRing({ radius = 3.5, count = 80 }: { radius?: number; count?: number }) {
   const ref = useRef<THREE.Points>(null!);
@@ -355,10 +348,17 @@ function SolarSystem({ isLight }: { isLight: boolean }) {
 export default function HeroScene() {
   const { theme } = useTheme();
   const isLight = theme === "light";
+  const isDesktop = useIsDesktop();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isVisible = useHeroVisible(containerRef);
+
+  // Don't render the 3D canvas at all on mobile — saves GPU/memory
+  if (!isDesktop) return null;
 
   return (
     <div
-      className="absolute inset-0 z-10 hidden sm:block transition-opacity duration-500"
+      ref={containerRef}
+      className="absolute inset-0 z-10 transition-opacity duration-500"
       style={{ pointerEvents: "none", opacity: isLight ? 0.55 : 1 }}
     >
       <Canvas
@@ -366,6 +366,7 @@ export default function HeroScene() {
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
         style={{ pointerEvents: "none" }}
+        frameloop={isVisible ? "always" : "never"}
       >
         <SolarSystem isLight={isLight} />
       </Canvas>

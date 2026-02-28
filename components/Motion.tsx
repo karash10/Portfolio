@@ -52,11 +52,13 @@ interface SectionRevealProps {
   className?: string;
   id?: string;
   delay?: number;
+  as?: "section" | "footer";
 }
 
-export function SectionReveal({ children, className, id, delay = 0 }: SectionRevealProps) {
+export function SectionReveal({ children, className, id, delay = 0, as = "section" }: SectionRevealProps) {
+  const Tag = motion[as] as typeof motion.section;
   return (
-    <motion.section
+    <Tag
       id={id}
       className={className}
       initial="hidden"
@@ -65,7 +67,7 @@ export function SectionReveal({ children, className, id, delay = 0 }: SectionRev
       variants={stagger(0.1, delay)}
     >
       {children}
-    </motion.section>
+    </Tag>
   );
 }
 
@@ -73,19 +75,21 @@ export function SectionReveal({ children, className, id, delay = 0 }: SectionRev
 interface RevealProps {
   children: ReactNode;
   className?: string;
+  style?: React.CSSProperties;
   variants?: Variants;
-  as?: "div" | "p" | "h1" | "h2" | "h3" | "span" | "li" | "ul";
+  as?: "div" | "p" | "h1" | "h2" | "h3" | "h4" | "span" | "li" | "ul" | "footer";
 }
 
 export function Reveal({
   children,
   className,
+  style,
   variants = fadeUp,
   as = "div",
 }: RevealProps) {
   const Tag = motion[as] as typeof motion.div;
   return (
-    <Tag className={className} variants={variants}>
+    <Tag className={className} style={style} variants={variants}>
       {children}
     </Tag>
   );
@@ -101,8 +105,8 @@ interface CountUpProps {
 export function CountUp({ value, label, className = "" }: CountUpProps) {
   return (
     <motion.div className={className} variants={fadeUp}>
-      <div className="text-2xl sm:text-3xl font-bold text-white">{value}</div>
-      <div className="mt-1 kbd text-[0.72rem] text-slate-200/70">{label}</div>
+      <div className="text-2xl sm:text-3xl font-bold text-[var(--text-strong)]">{value}</div>
+      <div className="mt-1 kbd text-[0.72rem] text-[var(--muted-2)]">{label}</div>
     </motion.div>
   );
 }

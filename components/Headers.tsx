@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { personal } from "@/data/portfolio";
 import { useTheme } from "./ThemeProvider";
@@ -65,9 +65,50 @@ function ThemeToggle() {
   );
 }
 
+/* ──── Active section tracking hook ──── */
+function useActiveSection(sectionIds: string[]) {
+  const [activeId, setActiveId] = useState<string>("");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the entry with the highest intersection ratio
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible.length > 0) {
+          setActiveId(visible[0].target.id);
+        }
+      },
+      { rootMargin: "-20% 0px -60% 0px", threshold: [0, 0.25, 0.5] }
+    );
+
+    const elements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [sectionIds]);
+
+  return activeId;
+}
+
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  const navLinks = [
+    { label: "Projects", href: "#projects", sectionId: "projects" },
+    { label: "Skills", href: "#skills", sectionId: "skills" },
+    { label: "Experience", href: "#experience", sectionId: "experience" },
+    { label: "Contact", href: "#contact", sectionId: "contact" },
+  ];
+
+  const sectionIds = navLinks.map((l) => l.sectionId);
+  const activeSection = useActiveSection(sectionIds);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -75,14 +116,43 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  // Close mobile menu on Escape key
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isMobileMenuOpen]);
 
-  const navLinks = [
-    { label: "Projects", href: "#projects" },
-    { label: "Skills", href: "#about" },
-    { label: "Experience", href: "#experience" },
-    { label: "Contact", href: "#contact" },
-  ];
+  // Close mobile menu on outside click
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    // Delay to avoid catching the opening click
+    const timer = setTimeout(() => {
+      document.addEventListener("click", onClick);
+    }, 10);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("click", onClick);
+    };
+  }, [isMobileMenuOpen]);
+
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen((prev) => !prev);
+  }, []);
+
+  const closeMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false);
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
@@ -103,8 +173,8 @@ export default function Header() {
                 <span className="section-title text-xl sm:text-2xl">K Harshit</span>
                 <span className="ml-3 hidden sm:inline-flex items-center gap-2 px-3 py-1 pill kbd text-[0.7rem]">
                   <span className="relative flex h-1.5 w-1.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--good)] opacity-75" />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[var(--good)]" />
                   </span>
                   Open to work
                 </span>
@@ -116,9 +186,20 @@ export default function Header() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="px-3 py-2 rounded-full text-sm font-medium text-[var(--muted)] hover:text-[var(--text-strong)] hover:bg-[var(--surface-0)] transition-colors"
+                  className={`relative px-3 py-2 rounded-full text-sm font-medium transition-colors ${
+                    activeSection === link.sectionId
+                      ? "text-[var(--text-strong)]"
+                      : "text-[var(--muted)] hover:text-[var(--text-strong)] hover:bg-[var(--surface-0)]"
+                  }`}
                 >
                   {link.label}
+                  {activeSection === link.sectionId && (
+                    <motion.span
+                      layoutId="nav-indicator"
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-5 rounded-full bg-[var(--accent)]"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
                 </a>
               ))}
             </div>
@@ -135,12 +216,12 @@ export default function Header() {
               <ThemeToggle />
               <button
                 type="button"
-                className="inline-flex items-center justify-center p-2 rounded-full text-[var(--muted)] hover:text-[var(--text-strong)] hover:bg-[var(--surface-0)] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500"
+                className="inline-flex items-center justify-center p-2 rounded-full text-[var(--muted)] hover:text-[var(--text-strong)] hover:bg-[var(--surface-0)]"
                 aria-controls="mobile-menu"
                 aria-expanded={isMobileMenuOpen}
                 onClick={toggleMobileMenu}
               >
-                <span className="sr-only">Open main menu</span>
+                <span className="sr-only">{isMobileMenuOpen ? "Close menu" : "Open menu"}</span>
                 <svg
                   className={`${isMobileMenuOpen ? "hidden" : "block"} h-6 w-6`}
                   xmlns="http://www.w3.org/2000/svg"
@@ -170,8 +251,12 @@ export default function Header() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            ref={mobileMenuRef}
             className="sm:hidden"
             id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -183,15 +268,19 @@ export default function Header() {
                   <a
                     key={link.href}
                     href={link.href}
-                    onClick={toggleMobileMenu}
-                    className="block px-4 py-3 rounded-xl text-base font-medium text-[var(--muted)] hover:text-[var(--text-strong)] hover:bg-[var(--surface-0)] transition-colors"
+                    onClick={closeMobileMenu}
+                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-colors ${
+                      activeSection === link.sectionId
+                        ? "text-[var(--text-strong)] bg-[var(--surface-0)]"
+                        : "text-[var(--muted)] hover:text-[var(--text-strong)] hover:bg-[var(--surface-0)]"
+                    }`}
                   >
                     {link.label}
                   </a>
                 ))}
 
                 <div className="pt-3">
-                  <a href={personal.calLink} target="_blank" rel="noopener noreferrer" onClick={toggleMobileMenu} className="btn btn-primary w-full shine">
+                  <a href={personal.calLink} target="_blank" rel="noopener noreferrer" onClick={closeMobileMenu} className="btn btn-primary w-full shine">
                     Let&apos;s talk
                     <span aria-hidden="true">&rarr;</span>
                   </a>

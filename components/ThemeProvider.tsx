@@ -41,6 +41,11 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
       document.documentElement.classList.remove("dark");
     }
 
+    // Belt-and-suspenders: set background directly to defeat any CSS specificity issues
+    const bg = next === "dark" ? "#000000" : "#f8fafc";
+    document.documentElement.style.backgroundColor = bg;
+    document.body.style.backgroundColor = bg;
+
     setTheme(next);
     localStorage.setItem("theme", next);
 

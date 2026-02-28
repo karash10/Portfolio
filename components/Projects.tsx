@@ -53,7 +53,7 @@ export default function Projects() {
                 className="group glass rounded-[var(--radius-xl)] overflow-hidden flex flex-col border border-[var(--stroke)] hover:border-[var(--stroke-2)] transition-colors relative"
               >
                 {/* Hover glow overlay */}
-                <div className="absolute inset-0 rounded-[var(--radius-xl)] bg-gradient-to-br from-cyan-500/10 via-transparent to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 rounded-[var(--radius-xl)] bg-gradient-to-br from-[var(--card-glow-from)] via-transparent to-[var(--card-glow-to)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <div className="relative p-6 flex-grow">
                   <div className="flex items-start justify-between gap-3">
@@ -68,7 +68,7 @@ export default function Projects() {
                   <ul className="mt-4 space-y-2">
                     {project.bullets.slice(0, 2).map((b, i) => (
                       <li key={i} className="flex items-start gap-2 text-xs text-[var(--muted-2)] leading-relaxed">
-                        <span className="mt-1.5 h-1 w-1 rounded-full bg-cyan-400/60 shrink-0" />
+                        <span className="mt-1.5 h-1 w-1 rounded-full bg-[var(--accent)] opacity-60 shrink-0" />
                         {b}
                       </li>
                     ))}
@@ -92,7 +92,7 @@ export default function Projects() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-[var(--text)] hover:text-[var(--text-strong)] font-semibold text-sm group-hover:translate-x-1 transition-transform"
+                      className="inline-flex items-center gap-2 text-[var(--text)] hover:text-[var(--text-strong)] font-semibold text-sm group-hover:translate-x-1 transition-transform rounded-lg"
                     >
                       <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path

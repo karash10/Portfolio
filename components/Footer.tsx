@@ -42,9 +42,9 @@ export default function Footer() {
   ];
 
   return (
-    <SectionReveal id="contact" className="relative">
+    <SectionReveal id="contact" as="footer" className="relative">
       <FloatingPlanets section="footer" />
-      <div className="site-container py-20">
+      <div className="site-container py-24 sm:py-32">
         <div className="max-w-2xl mx-auto text-center">
           <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)]">
             Get In Touch
@@ -58,10 +58,12 @@ export default function Footer() {
           <Reveal>
             <div className="mt-8 flex justify-center">
               <a
-                href={`mailto:${personal.email}`}
+                href={personal.calLink}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn btn-primary shine"
               >
-                Say hello
+                Let&apos;s talk
                 <span aria-hidden="true">&rarr;</span>
               </a>
             </div>
@@ -89,7 +91,7 @@ export default function Footer() {
           </motion.div>
 
           <Reveal>
-            <div className="mt-12 pt-8">
+            <div className="mt-12 pt-8 border-t border-[var(--divider)]">
               <p className="text-sm text-[var(--muted-3)]">
                 &copy; {new Date().getFullYear()} {personal.name}.
               </p>
