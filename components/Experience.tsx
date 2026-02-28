@@ -1,58 +1,142 @@
+"use client";
+
+import { motion } from "framer-motion";
+import {
+  experience,
+  education,
+  achievements,
+  certifications,
+} from "@/data/portfolio";
+import { SectionReveal, Reveal, fadeUp, stagger, slideLeft, slideRight } from "./Motion";
+import FloatingPlanets from "./FloatingPlanets";
+
 export default function Experience() {
   return (
-    <section id="experience" className="py-24 sm:py-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-fade-in">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          
-          {/* Experience Column */}
-          <div>
-            <h2 className="text-3xl font-extrabold text-white mb-8">Experience</h2>
-            <div className="space-y-8 border-l-2 border-slate-700 pl-6">
-              
-              {/* Experience Item */}
-              <div className="relative">
-                <span className="absolute -left-[33px] top-1 h-4 w-4 rounded-full bg-cyan-400 ring-8 ring-slate-900"></span>
-                <h3 className="text-xl font-bold text-white">Summer Intern</h3>
-                <p className="text-cyan-400 font-medium">CCNCS, PES University</p>
-                <p className="text-sm text-slate-400 mb-2">June 2025 – July 2025</p>
-                <ul className="list-disc list-outside pl-5 text-slate-300 space-y-1">
-                  <li>Developed <strong className="text-white">XJailGuard</strong>, an explainable framework for detecting multi-turn, cross-lingual jailbreak attacks on LLMs.</li>
-                  <li>Authored a research paper on this work, selected for publication at the <strong className="text-white">ICICC Conference</strong>.</li>
-                </ul>
-              </div>
-              
-              {/* Add more experience items here if needed */}
+    <SectionReveal id="experience" className="relative py-24 sm:py-32">
+      <FloatingPlanets section="experience" />
+      <div className="site-container">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Experience column */}
+          <motion.div variants={slideLeft}>
+            <h2 className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">Experience</h2>
 
-            </div>
-          </div>
+            <motion.div className="space-y-6" variants={stagger(0.1)}>
+              {experience.map((exp) => (
+                <motion.div
+                  key={exp.title}
+                  variants={fadeUp}
+                  className="glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
+                    <div>
+                      <h3 className="text-lg font-semibold text-[var(--text-strong)]">{exp.title}</h3>
+                      <p className="text-[var(--muted-2)]">{exp.org}</p>
+                    </div>
+                    <span className="pill kbd px-3 py-1 text-[0.72rem] shrink-0 self-start">
+                      {exp.period}
+                    </span>
+                  </div>
 
-          {/* Education Column */}
-          <div>
-            <h2 className="text-3xl font-extrabold text-white mb-8">Education</h2>
-            <div className="space-y-8 border-l-2 border-slate-700 pl-6">
-              
-              {/* Education Item */}
-              <div className="relative">
-                <span className="absolute -left-[33px] top-1 h-4 w-4 rounded-full bg-cyan-400 ring-8 ring-slate-900"></span>
-                <h3 className="text-xl font-bold text-white">B.Tech in Computer Science and Engineering</h3>
-                <p className="text-cyan-400 font-medium">PES University, Bengaluru</p>
-                <p className="text-sm text-slate-400 mb-2">2023 – 2027</p>
-                <p className="text-slate-300">CGPA: <strong className="text-white">8.7</strong></p>
-              </div>
-              
-              {/* Certification Item */}
-              <div className="relative">
-                <span className="absolute -left-[33px] top-1 h-4 w-4 rounded-full bg-cyan-400 ring-8 ring-slate-900"></span>
-                <h3 className="text-xl font-bold text-white">Cybersecurity Certification</h3>
-                <p className="text-cyan-400 font-medium">Basics of Red Teaming</p>
-                <p className="text-slate-300">Learned the fundamentals of ethical hacking and red team operations.</p>
-              </div>
+                  <ul className="mt-4 space-y-2.5">
+                    {exp.bullets.map((b, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-sm text-[var(--muted)] leading-relaxed">
+                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-cyan-400/60 shrink-0" />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
 
-            </div>
-          </div>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {exp.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="tag px-2.5 py-0.5 rounded-full text-[0.68rem] font-semibold"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
 
+            {/* Achievements */}
+            <h2 className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mt-12 mb-8">
+              Achievements
+            </h2>
+            <motion.div className="space-y-4" variants={stagger(0.1)}>
+              {achievements.map((a) => (
+                <motion.div
+                  key={a.title}
+                  variants={fadeUp}
+                  className="glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="h-3 w-3 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 shrink-0" />
+                    <h3 className="text-lg font-semibold text-[var(--text-strong)]">{a.title}</h3>
+                  </div>
+                  <p className="mt-2 text-[var(--muted-2)] text-sm">{a.description}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Education + Certifications column */}
+          <motion.div variants={slideRight}>
+            <h2 className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">Education</h2>
+
+            <motion.div className="space-y-6" variants={stagger(0.1)}>
+              {education.map((edu) => (
+                <motion.div
+                  key={edu.degree}
+                  variants={fadeUp}
+                  className="glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
+                    <div>
+                      <h3 className="text-lg font-semibold text-[var(--text-strong)]">{edu.degree}</h3>
+                      <p className="text-[var(--muted-2)]">{edu.institution}, {edu.location}</p>
+                    </div>
+                    <span className="pill kbd px-3 py-1 text-[0.72rem] shrink-0 self-start">
+                      {edu.period}
+                    </span>
+                  </div>
+                  <div className="mt-4 flex items-center gap-4">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-[var(--text-strong)]">{edu.cgpa}</span>
+                      <span className="kbd text-[0.72rem] text-[var(--muted-3)]">CGPA</span>
+                    </div>
+                    <div className="h-8 w-px bg-[var(--divider)]" />
+                    <div className="tag-emerald px-3 py-1 rounded-full text-xs font-semibold">
+                      On track
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Certifications */}
+            <h2 className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mt-12 mb-8">
+              Certifications
+            </h2>
+            <motion.div className="space-y-4" variants={stagger(0.1)}>
+              {certifications.map((cert) => (
+                <motion.div
+                  key={cert.title}
+                  variants={fadeUp}
+                  className="glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="h-3 w-3 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 shrink-0" />
+                    <h3 className="text-lg font-semibold text-[var(--text-strong)]">{cert.title}</h3>
+                  </div>
+                  <p className="mt-2 text-[var(--muted-2)] text-sm">{cert.description}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

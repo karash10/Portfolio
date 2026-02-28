@@ -1,26 +1,115 @@
+"use client";
+
+import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
+import { personal } from "@/data/portfolio";
+import { SectionReveal, Reveal, stagger } from "./Motion";
+import { useTheme } from "./ThemeProvider";
+
+// Lazy-load the 3D scene so it doesn't block SSR or first paint
+const HeroScene = dynamic(() => import("./HeroScene"), {
+  ssr: false,
+  loading: () => null,
+});
+
 export default function Hero() {
+  const { theme } = useTheme();
+
   return (
-    <section className="relative pt-28 pb-36 sm:pt-40 sm:pb-48 hero-grid-pattern overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-900 z-10"></div>
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 section-fade-in">
-        <div className="text-center">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight">
-            K Harshit
-          </h1>
-          <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-300">
-            A Computer Science student with a focus on building secure and intelligent systems.
-          </p>
-          
-          <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <a href="#contact" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-slate-900 bg-cyan-400 hover:bg-cyan-300 transition-colors duration-300 shadow-lg hover:shadow-cyan-400/30 transform hover:scale-105">
-              Get In Touch
-            </a>
-            <a href="/K Harshit.pdf" download="K Harshit.pdf" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-slate-600 text-base font-medium rounded-md text-cyan-300 bg-slate-800/60 hover:bg-slate-700/80 transition-colors duration-300">
-              Download Resume
-            </a>
-          </div>
+    <SectionReveal
+      className="relative min-h-[100dvh] flex items-center"
+    >
+      {/* 3D Scene (behind text) */}
+      <HeroScene />
+
+      {/* Soft vignette behind text for readability — no hard edges */}
+      <div
+        className="absolute inset-0 z-20 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          background: `radial-gradient(ellipse 55% 60% at 50% 50%, var(--vignette-color) 0%, transparent 100%)`,
+        }}
+      />
+
+      <div className="relative site-container z-30">
+        <div className="max-w-3xl mx-auto text-center">
+          <motion.div variants={stagger(0.1)}>
+            <Reveal>
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full glass">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                </span>
+                <span className="kbd text-[0.72rem] text-[var(--muted)]">Available for opportunities</span>
+              </div>
+            </Reveal>
+
+            <Reveal as="h1" className="mt-8 section-title text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-[var(--text-strong)] leading-[1.02] drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">
+              <>
+                I build{" "}
+                <span className="bg-gradient-to-r from-cyan-300 via-violet-300 to-emerald-300 bg-clip-text text-transparent">
+                  secure
+                </span>
+                <br />
+                <span className="bg-gradient-to-r from-violet-300 via-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+                  intelligent
+                </span>{" "}
+                systems.
+              </>
+            </Reveal>
+
+            <Reveal as="p" className="mt-6 max-w-xl mx-auto text-lg sm:text-xl text-[var(--muted)] leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)]">
+              <>
+                <span className="text-[var(--text-strong)] font-semibold">{personal.name}</span> &mdash; CS undergrad
+                at PES University specializing in LLM security, adversarial ML, and building
+                production-grade AI threat detection pipelines.
+              </>
+            </Reveal>
+
+            <Reveal>
+              <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#projects" className="btn btn-primary shine w-full sm:w-auto">
+                  View my work
+                  <span aria-hidden="true">&darr;</span>
+                </a>
+                <a
+                  href={personal.resumeFile}
+                  download="K_Harshit_Resume.pdf"
+                  className="btn btn-secondary w-full sm:w-auto"
+                >
+                  Download resume
+                  <span className="kbd text-[0.7rem] opacity-80">PDF</span>
+                </a>
+              </div>
+            </Reveal>
+
+          </motion.div>
         </div>
       </div>
-    </section>
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.8 }}
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-2"
+        >
+          <span className="kbd text-[0.65rem] text-[var(--muted-3)]">scroll</span>
+          <svg
+            className="w-5 h-5 text-[var(--muted-3)]"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7" />
+          </svg>
+        </motion.div>
+      </motion.div>
+    </SectionReveal>
   );
 }

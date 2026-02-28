@@ -1,25 +1,89 @@
-import { Inter } from "next/font/google";
+import { Fraunces, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
+import ThemeProvider from "@/components/ThemeProvider";
 
-// Import the fonts with the weights you need
-const inter = Inter({
+const sans = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
+  display: "swap",
 });
 
-export const metadata = {
-  title: "K Harshit - Portfolio",
-  description: "A Computer Science student with a focus on building secure and intelligent systems.",
+const serif = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "K Harshit — LLM Security & Adversarial ML",
+  description:
+    "CS undergrad at PES University specializing in LLM security, adversarial ML, and building production-grade AI threat detection pipelines and secure backend systems.",
+  keywords: [
+    "K Harshit",
+    "LLM Security",
+    "Adversarial ML",
+    "Prompt Injection",
+    "PyTorch",
+    "Spring Boot",
+    "PES University",
+    "Portfolio",
+  ],
+  authors: [{ name: "K Harshit" }],
+  openGraph: {
+    title: "K Harshit — LLM Security & Adversarial ML",
+    description:
+      "CS undergrad building secure, intelligent systems — from LLM safety frameworks to production backend architectures.",
+    url: "https://portfolio-self-two-69.vercel.app/",
+    siteName: "K Harshit Portfolio",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "K Harshit — LLM Security & Adversarial ML",
+    description:
+      "CS undergrad building secure, intelligent systems — from LLM safety frameworks to production backend architectures.",
+  },
+  robots: "index, follow",
 };
+
+/* Anti-FOUC script — runs before first paint to set .dark class */
+const themeScript = `
+(function() {
+  try {
+    var stored = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = stored || (prefersDark ? 'dark' : 'dark');
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  } catch(e) {
+    document.documentElement.classList.add('dark');
+  }
+})();
+`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      {/* We add the 'inter.className' for the font 
-        and your 'text-slate-300' for the default text color.
-      */}
-      <body className={`${inter.className} text-slate-300`}>
-        {children}
+    <html lang="en" className={`dark ${sans.variable} ${serif.variable} ${mono.variable} scroll-smooth`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="antialiased">
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
