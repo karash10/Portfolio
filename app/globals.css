@@ -221,6 +221,29 @@ body {
   }
 }
 
+/* ───────────── Mobile Optimization: Prevent blur on small screens ───────────── */
+/* Ensure content is never blurred on mobile devices for better visibility */
+@media (max-width: 767px) {
+  *,
+  *::before,
+  *::after {
+    filter: none !important;
+    backdrop-filter: none !important;
+  }
+  
+  /* Force remove any blur from Framer Motion or other sources */
+  body * {
+    filter: none !important;
+  }
+  
+  /* Ensure text is always sharp and readable */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
 /* Subtle grid pattern for the hero background */
 .hero-grid-pattern {
   background-image:

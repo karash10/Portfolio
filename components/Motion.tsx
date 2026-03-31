@@ -31,22 +31,21 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 // ── Fade-up: the workhorse animation (with mobile optimization) ──
 export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 32, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 32 },
   show: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: { duration: 0.7, ease },
   },
 };
 
-// Mobile-optimized: simpler fade without blur or transform
+// Mobile-optimized: simpler fade without blur or heavy transforms
 export const fadeUpMobile: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 12 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: "easeOut" },
+    transition: { duration: 0.35, ease: "easeOut" },
   },
 };
 
@@ -63,21 +62,20 @@ export const staggerMobile = (staggerChildren = 0.04, delayChildren = 0): Varian
 
 // ── Scale-in for cards (with mobile optimization) ──
 export const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.92, filter: "blur(4px)" },
+  hidden: { opacity: 0, scale: 0.92 },
   show: {
     opacity: 1,
     scale: 1,
-    filter: "blur(0px)",
     transition: { duration: 0.55, ease },
   },
 };
 
 export const scaleInMobile: Variants = {
-  hidden: { opacity: 0, scale: 0.95 },
+  hidden: { opacity: 0, scale: 0.97 },
   show: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.35, ease: "easeOut" },
+    transition: { duration: 0.3, ease: "easeOut" },
   },
 };
 
