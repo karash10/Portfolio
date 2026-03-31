@@ -138,9 +138,12 @@ export default function FloatingSpaceObjects() {
   const baseOpacity = theme === "light" ? 0.35 : 0.7;
   
   // Only render on desktop (≥768px) for performance
-  const [isDesktop, setIsDesktop] = useState(false);
+  // Start as true for SSR to avoid hydration mismatch
+  const [isDesktop, setIsDesktop] = useState(true);
+  const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
+    setMounted(true);
     const checkDesktop = () => {
       setIsDesktop(window.matchMedia("(min-width: 768px)").matches);
     };
@@ -153,8 +156,8 @@ export default function FloatingSpaceObjects() {
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
   
-  // Don't render at all on mobile to save resources
-  if (!isDesktop) return null;
+  // Don't render at all on mobile to save resources (after mount check)
+  if (!mounted || !isDesktop) return null;
 
   return (
     <>

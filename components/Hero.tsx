@@ -15,9 +15,12 @@ const HeroScene = dynamic(() => import("./HeroScene"), {
 
 export default function Hero() {
   // Only load 3D scene on desktop to save ~200KB bundle on mobile
-  const [shouldLoadScene, setShouldLoadScene] = useState(false);
+  // Start as true for SSR to avoid hydration issues
+  const [shouldLoadScene, setShouldLoadScene] = useState(true);
+  const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
+    setMounted(true);
     const checkDesktop = () => {
       const isDesktop = window.matchMedia("(min-width: 768px)").matches;
       setShouldLoadScene(isDesktop);
@@ -35,8 +38,8 @@ export default function Hero() {
     <SectionReveal
       className="relative min-h-[100dvh] flex items-center"
     >
-      {/* 3D Scene (behind text) - only on desktop */}
-      {shouldLoadScene && <HeroScene />}
+      {/* 3D Scene (behind text) - only on desktop, after mount to avoid hydration issues */}
+      {mounted && shouldLoadScene && <HeroScene />}
 
       {/* Soft vignette behind text for readability — no hard edges */}
       <div

@@ -187,9 +187,12 @@ export default function FloatingPlanets({ section }: { section: keyof typeof pre
   const { theme } = useTheme();
   
   // Detect if mobile (< 768px) for simplified planet set
+  // Start as false for SSR to avoid hydration issues
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => {
       setIsMobile(window.matchMedia("(max-width: 767px)").matches);
     };
@@ -203,7 +206,7 @@ export default function FloatingPlanets({ section }: { section: keyof typeof pre
   }, []);
   
   // Use mobile or desktop presets based on screen size
-  const planets = isMobile ? mobilePresets[section] : presets[section];
+  const planets = mounted && isMobile ? mobilePresets[section] : presets[section];
   
   // In light mode, reduce floating planet visibility
   const opacityScale = theme === "light" ? 0.3 : 1;

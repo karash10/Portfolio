@@ -5,9 +5,12 @@ import { type ReactNode, useState, useEffect } from "react";
 
 // ── Detect mobile for simplified animations ──
 function useIsMobile() {
+  // Start as false for SSR to avoid hydration mismatch
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => {
       setIsMobile(window.matchMedia("(max-width: 767px)").matches);
     };
@@ -20,7 +23,7 @@ function useIsMobile() {
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
   
-  return isMobile;
+  return { isMobile: mounted && isMobile, mounted };
 }
 
 // ── Shared easing & durations ──
@@ -111,7 +114,7 @@ interface SectionRevealProps {
 
 export function SectionReveal({ children, className, id, delay = 0, as = "section" }: SectionRevealProps) {
   const Tag = motion[as] as typeof motion.section;
-  const isMobile = useIsMobile();
+  const { isMobile } = useIsMobile();
   
   return (
     <Tag
@@ -144,7 +147,7 @@ export function Reveal({
   as = "div",
 }: RevealProps) {
   const Tag = motion[as] as typeof motion.div;
-  const isMobile = useIsMobile();
+  const { isMobile } = useIsMobile();
   
   // Use mobile-optimized variants if on mobile and default fadeUp is used
   const finalVariants = isMobile && variants === fadeUp ? fadeUpMobile : variants;

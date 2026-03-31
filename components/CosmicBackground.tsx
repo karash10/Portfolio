@@ -44,9 +44,12 @@ function StarsCanvas() {
   themeRef.current = theme;
 
   // Only render stars on desktop (≥768px) for performance
-  const [isDesktop, setIsDesktop] = useState(false);
+  // Start as true for SSR to avoid hydration mismatch, then check client-side
+  const [isDesktop, setIsDesktop] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const checkDesktop = () => {
       setIsDesktop(window.matchMedia("(min-width: 768px)").matches);
     };
@@ -60,7 +63,7 @@ function StarsCanvas() {
   }, []);
 
   useEffect(() => {
-    if (!isDesktop) return; // Skip canvas rendering on mobile
+    if (!mounted || !isDesktop) return; // Skip canvas rendering on mobile or during SSR
     
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -195,9 +198,13 @@ function StarsCanvas() {
       window.removeEventListener("resize", onResize);
       observer.disconnect();
     };
-  }, [isDesktop]);
+  }, [mounted, isDesktop]);
 
-  // Don't render canvas element at all on mobile
+  // Don't render canvas element at all on mobile (but render during SSR to avoid hydration mismatch)
+  if (!mounted) {
+    return <canvas className="pointer-events-none fixed inset-0 z-0 opacity-0" aria-hidden="true" />;
+  }
+  
   if (!isDesktop) return null;
 
   return (
