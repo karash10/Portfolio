@@ -11,6 +11,7 @@ export default function Footer() {
     name: "",
     email: "",
     message: "",
+    website: "", // Honeypot field - should remain empty
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -36,7 +37,7 @@ export default function Footer() {
       }
 
       setStatus("success");
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", message: "", website: "" });
       
       // Reset success message after 5 seconds
       setTimeout(() => setStatus("idle"), 5000);
@@ -112,6 +113,18 @@ export default function Footer() {
           <Reveal>
             <form onSubmit={handleSubmit} className="mt-12 max-w-lg mx-auto">
               <div className="glass p-8 rounded-2xl border border-[var(--stroke-1)]">
+                {/* Honeypot Field - Hidden from humans, catches bots */}
+                <input
+                  type="text"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleChange}
+                  className="absolute opacity-0 pointer-events-none h-0 w-0"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                />
+                
                 {/* Name Field */}
                 <div className="mb-6 text-left">
                   <label

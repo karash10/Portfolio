@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { projects } from "@/data/portfolio";
 import { SectionReveal, Reveal, stagger, scaleIn } from "./Motion";
 import FloatingPlanets from "./FloatingPlanets";
+import { Project } from "@/lib/types";
 
 const tagColor: Record<string, string> = {
   cyan: "tag",
@@ -16,8 +16,46 @@ const tagColor: Record<string, string> = {
 const INITIAL_SHOW = 6;
 
 export default function Projects() {
+  const [projects, setProjects] = useState<Project[]>([]);
   const [showAll, setShowAll] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        const res = await fetch('/api/projects');
+        if (res.ok) {
+          const data = await res.json();
+          setProjects(data.projects || []);
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProjects();
+  }, []);
+
   const visible = showAll ? projects : projects.slice(0, INITIAL_SHOW);
+
+  if (loading) {
+    return (
+      <section id="projects" className="relative py-24 sm:py-32">
+        <FloatingPlanets section="projects" />
+        <div className="site-container">
+          <div className="flex flex-col items-center text-center">
+            <h2 className="section-title text-4xl sm:text-5xl text-[var(--text-strong)]">
+              Projects
+            </h2>
+            <p className="mt-4 max-w-2xl text-[var(--muted-2)]">
+              Loading projects...
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <SectionReveal id="projects" className="relative py-24 sm:py-32">
@@ -43,7 +81,7 @@ export default function Projects() {
           <AnimatePresence mode="popLayout">
             {visible.map((project) => (
               <motion.div
-                key={project.title}
+                key={project.id}
                 variants={scaleIn}
                 layout
                 initial={{ opacity: 0, scale: 0.92 }}

@@ -1,0 +1,180 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "title": "DCASS",
+      "label": "AI + Steganography",
+      "description": "Dynamic Context-Aware Semantic Steganography — a research system that encodes covert messages by curating semantically aligned media using multi-modal AI embeddings instead of modifying carrier files.",
+      "bullets": [
+        "Multi-modal embedding pipeline using CLIP, CLAP, and SentenceTransformers for semantic alignment across text, image, and audio.",
+        "Reinforcement-learning agent (Stable-Baselines3) for optimal carrier selection with FAISS-powered vector search.",
+        "Adversarial robustness evaluation against steganalysis detectors with statistical indistinguishability metrics."
+      ],
+      "tech": [
+        { "name": "Python", "color": "cyan" },
+        { "name": "PyTorch", "color": "violet" },
+        { "name": "CLIP/CLAP", "color": "violet" },
+        { "name": "FAISS", "color": "emerald" },
+        { "name": "RL", "color": "violet" }
+      ],
+      "github": "https://github.com/karash10/DCASS",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "title": "XJailGuard",
+      "label": "LLM Security",
+      "description": "Explainable LLM security framework with modular pipeline for input sanitization, intent classification, and output validation against prompt injection attacks.",
+      "bullets": [
+        "Modular pipeline with independently configurable stages for input sanitization, intent classification, and output validation.",
+        "Cross-lingual threat detection supporting 10+ languages by fine-tuning multilingual transformer models on adversarial prompt datasets.",
+        "SHAP-based token attribution dashboard to visualize flagged prompt regions, reducing manual audit time."
+      ],
+      "tech": [
+        { "name": "Python", "color": "cyan" },
+        { "name": "PyTorch", "color": "violet" },
+        { "name": "NLP", "color": "violet" },
+        { "name": "SHAP", "color": "emerald" }
+      ],
+      "github": "https://github.com/karash10/XJailGuard",
+      "createdAt": "2024-02-01T00:00:00Z",
+      "updatedAt": "2024-02-01T00:00:00Z"
+    },
+    {
+      "id": "3",
+      "title": "CTI-RAG",
+      "label": "Threat Intel",
+      "description": "RAG pipeline over CVE and MITRE ATT&CK datasets with custom chunking strategies and vector indexing for high-precision semantic retrieval of threat intelligence.",
+      "bullets": [
+        "RAG pipeline over CVE and MITRE ATT&CK datasets with custom document chunking and ChromaDB vector indexing.",
+        "LangChain-based query engine grounding LLM responses in retrieved threat intelligence, reducing hallucination.",
+        "Interactive Streamlit dashboard for analysts to explore threat data through natural language queries."
+      ],
+      "tech": [
+        { "name": "LangChain", "color": "violet" },
+        { "name": "ChromaDB", "color": "emerald" },
+        { "name": "Streamlit", "color": "cyan" },
+        { "name": "Python", "color": "cyan" }
+      ],
+      "github": "https://github.com/karash10/CTI-RAG",
+      "createdAt": "2024-03-01T00:00:00Z",
+      "updatedAt": "2024-03-01T00:00:00Z"
+    },
+    {
+      "id": "4",
+      "title": "SecureLogger",
+      "label": "Cyber Deception",
+      "description": "GAN-powered adversarial log generation system that synthesizes realistic server access logs to obfuscate attacker behavioral fingerprints in honeypot environments.",
+      "bullets": [
+        "GAN architecture trained to synthesize realistic server access logs that statistically mirror real traffic distributions.",
+        "Discriminator trained on real server log datasets to enforce authenticity, iteratively refining Generator outputs.",
+        "Deployed as a Flask microservice for seamless integration with honeypot environments."
+      ],
+      "tech": [
+        { "name": "PyTorch", "color": "violet" },
+        { "name": "GAN", "color": "violet" },
+        { "name": "Flask", "color": "emerald" },
+        { "name": "Python", "color": "cyan" }
+      ],
+      "github": "https://github.com/karash10/SecureLogger",
+      "createdAt": "2024-04-01T00:00:00Z",
+      "updatedAt": "2024-04-01T00:00:00Z"
+    },
+    {
+      "id": "5",
+      "title": "Custom VPN",
+      "label": "Systems Programming",
+      "description": "Layer 3 VPN tunnel built from scratch using C, raw sockets, and Linux TUN/TAP interfaces with a Docker-based client-server architecture for network isolation.",
+      "bullets": [
+        "Raw socket programming in C with Linux TUN/TAP interfaces for Layer 3 packet tunneling over UDP.",
+        "Docker-based client-server architecture with the client isolated in a container for secure testing.",
+        "Custom packet encapsulation and routing without relying on OpenVPN or WireGuard libraries."
+      ],
+      "tech": [
+        { "name": "C", "color": "cyan" },
+        { "name": "Raw Sockets", "color": "neutral" },
+        { "name": "Linux/TUN/TAP", "color": "emerald" },
+        { "name": "Docker", "color": "emerald" }
+      ],
+      "github": "https://github.com/karash10/Custom_vpn",
+      "createdAt": "2024-05-01T00:00:00Z",
+      "updatedAt": "2024-05-01T00:00:00Z"
+    },
+    {
+      "id": "6",
+      "title": "Intelligent Research Analysis",
+      "label": "NLP + Graphs",
+      "description": "Automated ingestion pipeline that parses and semantically embeds academic research papers, then builds a directed knowledge graph for gap analysis.",
+      "bullets": [
+        "Semantic embedding of research papers using SentenceTransformers for dense vector representations.",
+        "Directed knowledge graph with NetworkX mapping citation relationships and surfacing contradictions.",
+        "FastAPI endpoints for graph traversal and embedding retrieval via a clean RESTful interface."
+      ],
+      "tech": [
+        { "name": "Python", "color": "cyan" },
+        { "name": "FastAPI", "color": "emerald" },
+        { "name": "SentenceTransformers", "color": "violet" },
+        { "name": "NetworkX", "color": "neutral" }
+      ],
+      "createdAt": "2024-06-01T00:00:00Z",
+      "updatedAt": "2024-06-01T00:00:00Z"
+    },
+    {
+      "id": "7",
+      "title": "EventSphere",
+      "label": "Backend Systems",
+      "description": "Scalable event booking system with atomic seat-locking, optimistic concurrency control, and JWT-based RBAC for high-concurrency workloads.",
+      "bullets": [
+        "Spring Boot backend with RESTful API layer designed for high concurrency and clean separation of concerns.",
+        "Atomic seat-locking and transactional booking with optimistic concurrency control to eliminate race conditions.",
+        "JWT-based authentication with role-based access control across users, organizers, and administrators."
+      ],
+      "tech": [
+        { "name": "Java", "color": "cyan" },
+        { "name": "Spring Boot", "color": "emerald" },
+        { "name": "MongoDB", "color": "emerald" },
+        { "name": "JWT", "color": "neutral" }
+      ],
+      "createdAt": "2024-07-01T00:00:00Z",
+      "updatedAt": "2024-07-01T00:00:00Z"
+    },
+    {
+      "id": "8",
+      "title": "PlayTogether",
+      "label": "Full-Stack Web",
+      "description": "MERN-stack platform for discovering, booking, and organizing sports activities with real-time event management, court booking, and Foursquare API integration.",
+      "bullets": [
+        "Full-stack React + Node.js application with Express REST API and MongoDB persistence layer.",
+        "JWT-based authentication flow with protected routes and session management.",
+        "Foursquare Places API integration for venue discovery and court availability lookup."
+      ],
+      "tech": [
+        { "name": "React", "color": "cyan" },
+        { "name": "Node.js", "color": "emerald" },
+        { "name": "MongoDB", "color": "emerald" },
+        { "name": "Express", "color": "neutral" }
+      ],
+      "github": "https://github.com/karash10/playTogether",
+      "createdAt": "2024-08-01T00:00:00Z",
+      "updatedAt": "2024-08-01T00:00:00Z"
+    },
+    {
+      "id": "9",
+      "title": "Live Attendance Monitor",
+      "label": "Java Backend",
+      "description": "Real-time attendance monitoring system built in Java for automated tracking and reporting in institutional environments.",
+      "bullets": [
+        "Java-based backend for real-time attendance tracking with automated presence detection.",
+        "Modular architecture separating monitoring logic, data persistence, and reporting layers."
+      ],
+      "tech": [
+        { "name": "Java", "color": "cyan" },
+        { "name": "Real-time", "color": "violet" }
+      ],
+      "github": "https://github.com/karash10/Live-Attendance-monitoring",
+      "createdAt": "2024-09-01T00:00:00Z",
+      "updatedAt": "2024-09-01T00:00:00Z"
+    }
+  ]
+}
