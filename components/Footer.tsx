@@ -173,12 +173,26 @@ export default function Footer() {
                     placeholder="Your message here..."
                     disabled={status === "loading"}
                   />
+                  {/* Character Counter */}
+                  <div className={`text-right mt-2 text-sm font-semibold transition-colors ${
+                    formData.message.length >= 10 
+                      ? "text-[var(--good)]" 
+                      : "text-red-500"
+                  }`}>
+                    {formData.message.length}/10 characters
+                    {formData.message.length >= 10 && " ✓"}
+                  </div>
                 </div>
 
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={status === "loading"}
+                  disabled={
+                    status === "loading" ||
+                    formData.name.trim().length === 0 ||
+                    formData.email.trim().length === 0 ||
+                    formData.message.length < 10
+                  }
                   className="w-full btn btn-primary shine disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {status === "loading" ? (
