@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useTheme } from "./ThemeProvider";
+import { useState, useEffect } from "react";
 
 interface FloatingPlanet {
   color: string;
@@ -53,6 +54,26 @@ const presets: Record<string, FloatingPlanet[]> = {
     { color: "#22D3EE", size: 14, x: 3, y: 20, duration: 8.5, delay: 0.4, drift: 20, opacity: 0.45 },
     { color: "#A78BFA", size: 18, x: 94, y: 55, duration: 10, delay: 1, drift: 26, opacity: 0.4, ring: true, ringColor: "#C4B5FD" },
     { color: "#34D399", size: 7, x: 12, y: 75, duration: 7, delay: 1.8, drift: 14, opacity: 0.4 },
+  ],
+};
+
+// Simplified mobile presets with fewer planets
+const mobilePresets: Record<string, FloatingPlanet[]> = {
+  projects: [
+    { color: "#A78BFA", size: 18, x: 95, y: 35, duration: 10, delay: 0, drift: 24, opacity: 0.5, ring: true, ringColor: "#C4B5FD" },
+    { color: "#22D3EE", size: 12, x: 3, y: 70, duration: 8, delay: 0.5, drift: 18, opacity: 0.55 },
+  ],
+  skills: [
+    { color: "#A78BFA", size: 16, x: 96, y: 10, duration: 9, delay: 0, drift: 22, opacity: 0.5 },
+    { color: "#22D3EE", size: 10, x: 2, y: 50, duration: 8, delay: 0.5, drift: 16, opacity: 0.55 },
+  ],
+  experience: [
+    { color: "#34D399", size: 14, x: 2, y: 20, duration: 9, delay: 0, drift: 20, opacity: 0.5 },
+    { color: "#C4B5FD", size: 16, x: 95, y: 55, duration: 10, delay: 0.8, drift: 24, opacity: 0.45 },
+  ],
+  footer: [
+    { color: "#22D3EE", size: 12, x: 5, y: 25, duration: 8, delay: 0, drift: 18, opacity: 0.5 },
+    { color: "#A78BFA", size: 14, x: 94, y: 60, duration: 9, delay: 0.5, drift: 22, opacity: 0.45 },
   ],
 };
 
@@ -163,8 +184,27 @@ function PlanetOrb({ planet, opacityScale }: { planet: FloatingPlanet; opacitySc
 }
 
 export default function FloatingPlanets({ section }: { section: keyof typeof presets }) {
-  const planets = presets[section];
   const { theme } = useTheme();
+  
+  // Detect if mobile (< 768px) for simplified planet set
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(max-width: 767px)").matches);
+    };
+    
+    checkMobile();
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+  
+  // Use mobile or desktop presets based on screen size
+  const planets = isMobile ? mobilePresets[section] : presets[section];
+  
   // In light mode, reduce floating planet visibility
   const opacityScale = theme === "light" ? 0.3 : 1;
 

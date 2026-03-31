@@ -1,22 +1,61 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { personal } from "@/data/portfolio";
 import { SectionReveal, Reveal, stagger, scaleIn } from "./Motion";
 import FloatingPlanets from "./FloatingPlanets";
 
 export default function Footer() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setStatus("idle"), 5000);
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(error instanceof Error ? error.message : "Something went wrong");
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const socials = [
-    {
-      label: "Email",
-      href: `mailto:${personal.email}`,
-      icon: (
-        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-          <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-        </svg>
-      ),
-    },
     {
       label: "LinkedIn",
       href: personal.linkedin,
@@ -69,6 +108,137 @@ export default function Footer() {
             </div>
           </Reveal>
 
+          {/* Contact Form */}
+          <Reveal>
+            <form onSubmit={handleSubmit} className="mt-12 max-w-lg mx-auto">
+              <div className="glass p-8 rounded-2xl border border-[var(--stroke-1)]">
+                {/* Name Field */}
+                <div className="mb-6 text-left">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-semibold text-[var(--text-strong)] mb-2"
+                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg bg-[var(--bg-1)] border border-[var(--stroke-1)] text-[var(--text-strong)] placeholder:text-[var(--muted-3)] focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] transition-colors"
+                    placeholder="John Doe"
+                    disabled={status === "loading"}
+                  />
+                </div>
+
+                {/* Email Field */}
+                <div className="mb-6 text-left">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-semibold text-[var(--text-strong)] mb-2"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg bg-[var(--bg-1)] border border-[var(--stroke-1)] text-[var(--text-strong)] placeholder:text-[var(--muted-3)] focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] transition-colors"
+                    placeholder="john@example.com"
+                    disabled={status === "loading"}
+                  />
+                </div>
+
+                {/* Message Field */}
+                <div className="mb-6 text-left">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-semibold text-[var(--text-strong)] mb-2"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={5}
+                    className="w-full px-4 py-3 rounded-lg bg-[var(--bg-1)] border border-[var(--stroke-1)] text-[var(--text-strong)] placeholder:text-[var(--muted-3)] focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] transition-colors resize-none"
+                    placeholder="Your message here..."
+                    disabled={status === "loading"}
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="w-full btn btn-primary shine disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {status === "loading" ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <svg
+                        className="h-5 w-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                      </svg>
+                      Send Message
+                    </>
+                  )}
+                </button>
+
+                {/* Success Message */}
+                {status === "success" && (
+                  <div className="mt-4 p-3 rounded-lg bg-[var(--good)] bg-opacity-10 border border-[var(--good)] text-[var(--good)] text-sm">
+                    Message sent successfully! I&apos;ll get back to you soon.
+                  </div>
+                )}
+
+                {/* Error Message */}
+                {status === "error" && (
+                  <div className="mt-4 p-3 rounded-lg bg-red-500 bg-opacity-10 border border-red-500 text-red-500 text-sm">
+                    {errorMessage || "Failed to send message. Please try again."}
+                  </div>
+                )}
+              </div>
+            </form>
+          </Reveal>
+
+          {/* Social Icons */}
           <motion.div
             className="mt-10 flex justify-center items-center gap-4"
             variants={stagger(0.08, 0.3)}
@@ -77,8 +247,8 @@ export default function Footer() {
               <motion.a
                 key={s.label}
                 href={s.href}
-                target={s.href.startsWith("mailto") ? undefined : "_blank"}
-                rel={s.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="p-3 rounded-full glass hover:border-[var(--stroke-2)] text-[var(--muted)] hover:text-[var(--text-strong)] transition-colors"
                 variants={scaleIn}
                 whileHover={{ scale: 1.1 }}

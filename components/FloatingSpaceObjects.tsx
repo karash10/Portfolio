@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTheme } from "./ThemeProvider";
 
 /*
@@ -135,6 +136,25 @@ function Satellite({ opacity }: { opacity: number }) {
 export default function FloatingSpaceObjects() {
   const { theme } = useTheme();
   const baseOpacity = theme === "light" ? 0.35 : 0.7;
+  
+  // Only render on desktop (≥768px) for performance
+  const [isDesktop, setIsDesktop] = useState(false);
+  
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.matchMedia("(min-width: 768px)").matches);
+    };
+    
+    checkDesktop();
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+  
+  // Don't render at all on mobile to save resources
+  if (!isDesktop) return null;
 
   return (
     <>

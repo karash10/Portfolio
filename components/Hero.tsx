@@ -4,20 +4,39 @@ import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { personal } from "@/data/portfolio";
 import { SectionReveal, Reveal, stagger } from "./Motion";
+import { useEffect, useState } from "react";
 
 // Lazy-load the 3D scene so it doesn't block SSR or first paint
+// Only load on desktop (≥768px) for performance
 const HeroScene = dynamic(() => import("./HeroScene"), {
   ssr: false,
   loading: () => null,
 });
 
 export default function Hero() {
+  // Only load 3D scene on desktop to save ~200KB bundle on mobile
+  const [shouldLoadScene, setShouldLoadScene] = useState(false);
+  
+  useEffect(() => {
+    const checkDesktop = () => {
+      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+      setShouldLoadScene(isDesktop);
+    };
+    
+    checkDesktop();
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const handler = (e: MediaQueryListEvent) => setShouldLoadScene(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+  
   return (
     <SectionReveal
       className="relative min-h-[100dvh] flex items-center"
     >
-      {/* 3D Scene (behind text) */}
-      <HeroScene />
+      {/* 3D Scene (behind text) - only on desktop */}
+      {shouldLoadScene && <HeroScene />}
 
       {/* Soft vignette behind text for readability — no hard edges */}
       <div
@@ -70,12 +89,13 @@ export default function Hero() {
                   <span aria-hidden="true">&darr;</span>
                 </a>
                 <a
-                  href={personal.resumeFile}
-                  download="K_Harshit_Resume.pdf"
+                  href={personal.resumeLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn btn-secondary w-full sm:w-auto"
                 >
-                  Download resume
-                  <span className="kbd text-[0.7rem] opacity-80">PDF</span>
+                  View Resume
+                  <span aria-hidden="true">&#8599;</span>
                 </a>
               </div>
             </Reveal>

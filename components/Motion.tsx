@@ -1,12 +1,32 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { type ReactNode } from "react";
+import { type ReactNode, useState, useEffect } from "react";
+
+// ── Detect mobile for simplified animations ──
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(max-width: 767px)").matches);
+    };
+    
+    checkMobile();
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+  
+  return isMobile;
+}
 
 // ── Shared easing & durations ──
 const ease = [0.16, 1, 0.3, 1] as const;
 
-// ── Fade-up: the workhorse animation ──
+// ── Fade-up: the workhorse animation (with mobile optimization) ──
 export const fadeUp: Variants = {
   hidden: { opacity: 0, y: 32, filter: "blur(4px)" },
   show: {
@@ -17,13 +37,28 @@ export const fadeUp: Variants = {
   },
 };
 
-// ── Stagger container ──
+// Mobile-optimized: simpler fade without blur or transform
+export const fadeUpMobile: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
+
+// ── Stagger container (with mobile optimization) ──
 export const stagger = (staggerChildren = 0.08, delayChildren = 0): Variants => ({
   hidden: {},
   show: { transition: { staggerChildren, delayChildren } },
 });
 
-// ── Scale-in for cards ──
+export const staggerMobile = (staggerChildren = 0.04, delayChildren = 0): Variants => ({
+  hidden: {},
+  show: { transition: { staggerChildren, delayChildren } },
+});
+
+// ── Scale-in for cards (with mobile optimization) ──
 export const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 0.92, filter: "blur(4px)" },
   show: {
@@ -34,16 +69,35 @@ export const scaleIn: Variants = {
   },
 };
 
-// ── Slide from left ──
+export const scaleInMobile: Variants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.35, ease: "easeOut" },
+  },
+};
+
+// ── Slide from left (with mobile optimization) ──
 export const slideLeft: Variants = {
   hidden: { opacity: 0, x: -40 },
   show: { opacity: 1, x: 0, transition: { duration: 0.6, ease } },
 };
 
-// ── Slide from right ──
+export const slideLeftMobile: Variants = {
+  hidden: { opacity: 0, x: -20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
+// ── Slide from right (with mobile optimization) ──
 export const slideRight: Variants = {
   hidden: { opacity: 0, x: 40 },
   show: { opacity: 1, x: 0, transition: { duration: 0.6, ease } },
+};
+
+export const slideRightMobile: Variants = {
+  hidden: { opacity: 0, x: 20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
 // ── Section wrapper that triggers when in viewport ──
@@ -57,6 +111,8 @@ interface SectionRevealProps {
 
 export function SectionReveal({ children, className, id, delay = 0, as = "section" }: SectionRevealProps) {
   const Tag = motion[as] as typeof motion.section;
+  const isMobile = useIsMobile();
+  
   return (
     <Tag
       id={id}
@@ -64,7 +120,7 @@ export function SectionReveal({ children, className, id, delay = 0, as = "sectio
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-80px" }}
-      variants={stagger(0.1, delay)}
+      variants={isMobile ? staggerMobile(0.05, delay) : stagger(0.1, delay)}
     >
       {children}
     </Tag>
@@ -88,8 +144,13 @@ export function Reveal({
   as = "div",
 }: RevealProps) {
   const Tag = motion[as] as typeof motion.div;
+  const isMobile = useIsMobile();
+  
+  // Use mobile-optimized variants if on mobile and default fadeUp is used
+  const finalVariants = isMobile && variants === fadeUp ? fadeUpMobile : variants;
+  
   return (
-    <Tag className={className} style={style} variants={variants}>
+    <Tag className={className} style={style} variants={finalVariants}>
       {children}
     </Tag>
   );

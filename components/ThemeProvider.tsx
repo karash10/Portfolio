@@ -53,7 +53,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     // interfering with other transitions (e.g. hover effects)
     setTimeout(() => {
       document.documentElement.classList.remove("theme-transition");
-    }, 550);
+    }, 450); // Matches 400ms transition + 50ms buffer
   }, [theme]);
 
   return (

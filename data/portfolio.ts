@@ -13,6 +13,7 @@ export const personal = {
   portfolio: "https://portfolio-self-two-69.vercel.app/",
   location: "Bengaluru, India",
   resumeFile: "/K_Harshit.pdf",
+  resumeLink: "https://drive.google.com/file/d/1z4gfO4YHbgA30_oTf1ikaSIvSkcdrsIB/view?usp=sharing",
   calLink: "https://cal.com/karash-tgoclq",
 } as const;
 

@@ -150,16 +150,19 @@ html:not(.dark),
   color-scheme: light;
 }
 
-/* ───────────── Smooth theme transition ───────────── */
+/* ───────────── Smooth theme transition (optimized for performance) ───────────── */
+/* Only transition critical elements instead of everything (*) */
 html.theme-transition,
-html.theme-transition *,
-html.theme-transition *::before,
-html.theme-transition *::after {
-  transition: background-color 500ms ease,
-              color 500ms ease,
-              border-color 500ms ease,
-              box-shadow 500ms ease,
-              opacity 500ms ease !important;
+html.theme-transition body,
+html.theme-transition .glass,
+html.theme-transition .card,
+html.theme-transition [class*="btn"],
+html.theme-transition header,
+html.theme-transition footer,
+html.theme-transition main {
+  transition: background-color 400ms ease,
+              color 400ms ease,
+              border-color 400ms ease !important;
   transition-delay: 0ms !important;
 }
 
@@ -183,6 +186,29 @@ body {
 
 ::selection {
   background: var(--selection-bg);
+}
+
+/* ───────────── GPU Acceleration Hints ───────────── */
+/* Force GPU compositing for animated elements to improve performance */
+.glass,
+.card,
+.card-hover,
+[class*="btn"] {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Only hint will-change for elements that will animate (respects reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  [data-animate],
+  [class*="motion-"] {
+    will-change: opacity, transform;
+  }
+  
+  /* Remove will-change after animation completes to free GPU memory */
+  [data-animate="complete"] {
+    will-change: auto;
+  }
 }
 
 /* Respect reduced motion */

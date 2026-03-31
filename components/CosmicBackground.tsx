@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "./ThemeProvider";
 
 /*
@@ -43,7 +43,25 @@ function StarsCanvas() {
   const themeRef = useRef(theme);
   themeRef.current = theme;
 
+  // Only render stars on desktop (≥768px) for performance
+  const [isDesktop, setIsDesktop] = useState(false);
+
   useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.matchMedia("(min-width: 768px)").matches);
+    };
+    
+    checkDesktop();
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return; // Skip canvas rendering on mobile
+    
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -177,7 +195,10 @@ function StarsCanvas() {
       window.removeEventListener("resize", onResize);
       observer.disconnect();
     };
-  }, []);
+  }, [isDesktop]);
+
+  // Don't render canvas element at all on mobile
+  if (!isDesktop) return null;
 
   return (
     <canvas
