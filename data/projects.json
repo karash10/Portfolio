@@ -11,15 +11,30 @@
         "Adversarial robustness evaluation against steganalysis detectors with statistical indistinguishability metrics."
       ],
       "tech": [
-        { "name": "Python", "color": "cyan" },
-        { "name": "PyTorch", "color": "violet" },
-        { "name": "CLIP/CLAP", "color": "violet" },
-        { "name": "FAISS", "color": "emerald" },
-        { "name": "RL", "color": "violet" }
+        {
+          "name": "Python",
+          "color": "cyan"
+        },
+        {
+          "name": "PyTorch",
+          "color": "violet"
+        },
+        {
+          "name": "CLIP/CLAP",
+          "color": "violet"
+        },
+        {
+          "name": "FAISS",
+          "color": "emerald"
+        },
+        {
+          "name": "RL",
+          "color": "violet"
+        }
       ],
       "github": "https://github.com/karash10/DCASS",
       "createdAt": "2024-01-01T00:00:00Z",
-      "updatedAt": "2024-01-01T00:00:00Z"
+      "updatedAt": "2026-03-31T18:01:23.101Z"
     },
     {
       "id": "2",
@@ -32,10 +47,22 @@
         "SHAP-based token attribution dashboard to visualize flagged prompt regions, reducing manual audit time."
       ],
       "tech": [
-        { "name": "Python", "color": "cyan" },
-        { "name": "PyTorch", "color": "violet" },
-        { "name": "NLP", "color": "violet" },
-        { "name": "SHAP", "color": "emerald" }
+        {
+          "name": "Python",
+          "color": "cyan"
+        },
+        {
+          "name": "PyTorch",
+          "color": "violet"
+        },
+        {
+          "name": "NLP",
+          "color": "violet"
+        },
+        {
+          "name": "SHAP",
+          "color": "emerald"
+        }
       ],
       "github": "https://github.com/karash10/XJailGuard",
       "createdAt": "2024-02-01T00:00:00Z",
@@ -52,10 +79,22 @@
         "Interactive Streamlit dashboard for analysts to explore threat data through natural language queries."
       ],
       "tech": [
-        { "name": "LangChain", "color": "violet" },
-        { "name": "ChromaDB", "color": "emerald" },
-        { "name": "Streamlit", "color": "cyan" },
-        { "name": "Python", "color": "cyan" }
+        {
+          "name": "LangChain",
+          "color": "violet"
+        },
+        {
+          "name": "ChromaDB",
+          "color": "emerald"
+        },
+        {
+          "name": "Streamlit",
+          "color": "cyan"
+        },
+        {
+          "name": "Python",
+          "color": "cyan"
+        }
       ],
       "github": "https://github.com/karash10/CTI-RAG",
       "createdAt": "2024-03-01T00:00:00Z",
@@ -72,10 +111,22 @@
         "Deployed as a Flask microservice for seamless integration with honeypot environments."
       ],
       "tech": [
-        { "name": "PyTorch", "color": "violet" },
-        { "name": "GAN", "color": "violet" },
-        { "name": "Flask", "color": "emerald" },
-        { "name": "Python", "color": "cyan" }
+        {
+          "name": "PyTorch",
+          "color": "violet"
+        },
+        {
+          "name": "GAN",
+          "color": "violet"
+        },
+        {
+          "name": "Flask",
+          "color": "emerald"
+        },
+        {
+          "name": "Python",
+          "color": "cyan"
+        }
       ],
       "github": "https://github.com/karash10/SecureLogger",
       "createdAt": "2024-04-01T00:00:00Z",
@@ -92,10 +143,22 @@
         "Custom packet encapsulation and routing without relying on OpenVPN or WireGuard libraries."
       ],
       "tech": [
-        { "name": "C", "color": "cyan" },
-        { "name": "Raw Sockets", "color": "neutral" },
-        { "name": "Linux/TUN/TAP", "color": "emerald" },
-        { "name": "Docker", "color": "emerald" }
+        {
+          "name": "C",
+          "color": "cyan"
+        },
+        {
+          "name": "Raw Sockets",
+          "color": "neutral"
+        },
+        {
+          "name": "Linux/TUN/TAP",
+          "color": "emerald"
+        },
+        {
+          "name": "Docker",
+          "color": "emerald"
+        }
       ],
       "github": "https://github.com/karash10/Custom_vpn",
       "createdAt": "2024-05-01T00:00:00Z",
@@ -112,11 +175,24 @@
         "FastAPI endpoints for graph traversal and embedding retrieval via a clean RESTful interface."
       ],
       "tech": [
-        { "name": "Python", "color": "cyan" },
-        { "name": "FastAPI", "color": "emerald" },
-        { "name": "SentenceTransformers", "color": "violet" },
-        { "name": "NetworkX", "color": "neutral" }
+        {
+          "name": "Python",
+          "color": "cyan"
+        },
+        {
+          "name": "FastAPI",
+          "color": "emerald"
+        },
+        {
+          "name": "SentenceTransformers",
+          "color": "violet"
+        },
+        {
+          "name": "NetworkX",
+          "color": "neutral"
+        }
       ],
+      "github": "https://github.com/karash10",
       "createdAt": "2024-06-01T00:00:00Z",
       "updatedAt": "2024-06-01T00:00:00Z"
     },
@@ -131,11 +207,24 @@
         "JWT-based authentication with role-based access control across users, organizers, and administrators."
       ],
       "tech": [
-        { "name": "Java", "color": "cyan" },
-        { "name": "Spring Boot", "color": "emerald" },
-        { "name": "MongoDB", "color": "emerald" },
-        { "name": "JWT", "color": "neutral" }
+        {
+          "name": "Java",
+          "color": "cyan"
+        },
+        {
+          "name": "Spring Boot",
+          "color": "emerald"
+        },
+        {
+          "name": "MongoDB",
+          "color": "emerald"
+        },
+        {
+          "name": "JWT",
+          "color": "neutral"
+        }
       ],
+      "github": "https://github.com/karash10/bms",
       "createdAt": "2024-07-01T00:00:00Z",
       "updatedAt": "2024-07-01T00:00:00Z"
     },
@@ -150,10 +239,22 @@
         "Foursquare Places API integration for venue discovery and court availability lookup."
       ],
       "tech": [
-        { "name": "React", "color": "cyan" },
-        { "name": "Node.js", "color": "emerald" },
-        { "name": "MongoDB", "color": "emerald" },
-        { "name": "Express", "color": "neutral" }
+        {
+          "name": "React",
+          "color": "cyan"
+        },
+        {
+          "name": "Node.js",
+          "color": "emerald"
+        },
+        {
+          "name": "MongoDB",
+          "color": "emerald"
+        },
+        {
+          "name": "Express",
+          "color": "neutral"
+        }
       ],
       "github": "https://github.com/karash10/playTogether",
       "createdAt": "2024-08-01T00:00:00Z",
@@ -169,8 +270,14 @@
         "Modular architecture separating monitoring logic, data persistence, and reporting layers."
       ],
       "tech": [
-        { "name": "Java", "color": "cyan" },
-        { "name": "Real-time", "color": "violet" }
+        {
+          "name": "Java",
+          "color": "cyan"
+        },
+        {
+          "name": "Real-time",
+          "color": "violet"
+        }
       ],
       "github": "https://github.com/karash10/Live-Attendance-monitoring",
       "createdAt": "2024-09-01T00:00:00Z",

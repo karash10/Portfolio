@@ -79,9 +79,9 @@ export default function Hero() {
 
             <Reveal as="p" className="mt-6 max-w-xl mx-auto text-lg sm:text-xl text-[var(--muted)] leading-relaxed" style={{ filter: "drop-shadow(var(--hero-subtitle-shadow))" }}>
               <>
-                <span className="text-[var(--text-strong)] font-semibold">{personal.name}</span> &mdash; CS undergrad
-                at PES University specializing in LLM security, adversarial ML, and building
-                production-grade AI threat detection pipelines.
+                <span className="text-[var(--text-strong)] font-semibold">{personal.name}</span> &mdash; {personal.role}.
+                Building at the intersection of backend engineering and AI security with scalable async APIs,
+                RAG pipelines, and prompt injection defense.
               </>
             </Reveal>
 

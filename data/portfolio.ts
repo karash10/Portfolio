@@ -3,17 +3,17 @@
 
 export const personal = {
   name: "K Harshit",
-  role: "CS Undergrad | LLM Security & Adversarial ML",
+  role: "Backend Engineer | LLM Security Researcher",
   summary:
-    "Computer Science undergrad at PES University specializing in LLM security and adversarial ML, with hands-on experience building secure backend systems and AI-driven threat detection pipelines. Skilled in designing scalable, high-performance architectures across security-focused AI systems and production-grade backend applications.",
+    "Computer Science undergrad at PES University with production experience building AI-powered backend systems and a research specialization in LLM security. Building at the intersection of backend engineering and AI security — scalable async APIs, RAG pipelines, adversarial ML, and prompt injection defense.",
   email: "kappalaharshith@gmail.com",
   phone: "+91-9845198405",
   github: "https://github.com/karash10",
   linkedin: "https://www.linkedin.com/in/k-harshit-109a07284/",
-  portfolio: "https://portfolio-self-two-69.vercel.app/",
+  portfolio: "https://karash.me",
   location: "Bengaluru, India",
   resumeFile: "/K_Harshit.pdf",
-  resumeLink: "https://drive.google.com/file/d/1z4gfO4YHbgA30_oTf1ikaSIvSkcdrsIB/view?usp=sharing",
+  resumeLink: "https://drive.google.com/file/d/1LzTql7CItezQXIGhuAONAcL37YR4tZEW/view?usp=sharing",
   calLink: "https://cal.com/karash-tgoclq",
 } as const;
 
@@ -28,6 +28,19 @@ export const education = [
 ] as const;
 
 export const experience = [
+  {
+    title: "Backend Engineering Intern",
+    org: "Prepairo",
+    location: "Remote",
+    period: "Mar 2026 - May 2026",
+    bullets: [
+      "Served as the primary backend intern on a production AI tutoring platform, contributing across API design, AI pipeline integration, cloud deployment, and CI/CD.",
+      "Owned RAG and LLM pipeline infrastructure, including vector search and multi-provider orchestration (Claude, OpenAI, Gemini).",
+      "Built and maintained async REST APIs (FastAPI + PostgreSQL + SQLAlchemy) for authentication, onboarding, curriculum browsing, progress tracking, and real-time voice tutoring.",
+      "Shipped production systems with GitHub Actions CI/CD, Firebase push notifications, background jobs, and multi-provider OAuth2 (Google, Apple, Microsoft).",
+    ],
+    tags: ["FastAPI", "PostgreSQL", "SQLAlchemy", "CI/CD"],
+  },
   {
     title: "Summer Research Intern",
     org: "CCNCS, PES University",
@@ -163,6 +176,7 @@ export const projects: Project[] = [
       { name: "SentenceTransformers", color: "violet" },
       { name: "NetworkX", color: "neutral" },
     ],
+    github: "https://github.com/karash10",
   },
   {
     title: "EventSphere",
@@ -180,6 +194,7 @@ export const projects: Project[] = [
       { name: "MongoDB", color: "emerald" },
       { name: "JWT", color: "neutral" },
     ],
+    github: "https://github.com/karash10/bms",
   },
   {
     title: "PlayTogether",
@@ -225,6 +240,7 @@ export const skills = [
     items: [
       { name: "Python", color: "cyan" as const },
       { name: "Java", color: "cyan" as const },
+      { name: "Go", color: "cyan" as const },
       { name: "C", color: "cyan" as const },
       { name: "JavaScript", color: "cyan" as const },
       { name: "TypeScript", color: "cyan" as const },
@@ -245,6 +261,8 @@ export const skills = [
       { name: "Vector Embeddings", color: "violet" as const },
       { name: "XAI (SHAP)", color: "violet" as const },
       { name: "LangChain", color: "violet" as const },
+      { name: "Milvus", color: "violet" as const },
+      { name: "Neo4j", color: "violet" as const },
     ],
   },
   {
@@ -266,9 +284,13 @@ export const skills = [
     items: [
       { name: "Spring Boot", color: "cyan" as const },
       { name: "FastAPI", color: "cyan" as const },
+      { name: "SQLAlchemy (async)", color: "cyan" as const },
       { name: "Flask", color: "cyan" as const },
       { name: "Node.js", color: "cyan" as const },
+      { name: "WebSockets", color: "neutral" as const },
       { name: "REST APIs", color: "neutral" as const },
+      { name: "PostgreSQL", color: "neutral" as const },
+      { name: "Redis", color: "neutral" as const },
       { name: "MongoDB", color: "neutral" as const },
       { name: "ChromaDB", color: "neutral" as const },
       { name: "FAISS", color: "neutral" as const },
@@ -283,6 +305,7 @@ export const skills = [
       { name: "Linux", color: "emerald" as const },
       { name: "Bash", color: "emerald" as const },
       { name: "Docker", color: "emerald" as const },
+      { name: "Docker Compose", color: "emerald" as const },
       { name: "TUN/TAP Interfaces", color: "emerald" as const },
       { name: "Nmap", color: "neutral" as const },
     ],
@@ -292,6 +315,9 @@ export const skills = [
     description: "Development tools and platforms",
     items: [
       { name: "Git / GitHub", color: "neutral" as const },
+      { name: "GitHub Actions", color: "neutral" as const },
+      { name: "AWS S3", color: "neutral" as const },
+      { name: "Firebase", color: "neutral" as const },
       { name: "Streamlit", color: "neutral" as const },
       { name: "NetworkX", color: "neutral" as const },
     ],
