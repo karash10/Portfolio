@@ -224,16 +224,33 @@ body {
 /* ───────────── Mobile Optimization: Prevent blur on small screens ───────────── */
 /* Ensure content is never blurred on mobile devices for better visibility */
 @media (max-width: 767px) {
-  *,
-  *::before,
-  *::after {
-    filter: none !important;
+  .glass,
+  .glass-strong {
     backdrop-filter: none !important;
   }
-  
-  /* Force remove any blur from Framer Motion or other sources */
-  body * {
-    filter: none !important;
+
+  .shine::after {
+    display: none;
+  }
+
+  .site-container {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .btn.btn-primary,
+  .btn.btn-secondary {
+    min-height: 44px;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
   }
   
   /* Ensure text is always sharp and readable */

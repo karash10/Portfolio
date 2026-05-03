@@ -112,7 +112,7 @@ export default function Footer() {
           {/* Contact Form */}
           <Reveal>
             <form onSubmit={handleSubmit} className="mt-8 max-w-lg mx-auto">
-              <div className="glass p-8 rounded-2xl border border-[var(--stroke-1)]">
+              <div className="glass p-5 sm:p-8 rounded-2xl border border-[var(--stroke-1)]">
                 {/* Honeypot Field - Hidden from humans, catches bots */}
                 <input
                   type="text"
