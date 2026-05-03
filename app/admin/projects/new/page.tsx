@@ -31,7 +31,7 @@ export default function NewProjectPage() {
         const errorData = await res.json();
         setError(errorData.error || "Failed to create project");
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);

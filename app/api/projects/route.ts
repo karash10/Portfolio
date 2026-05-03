@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProjects, addProject } from "@/lib/projects";
+import { validateProjectInput } from "@/lib/projectValidation";
 
 // GET /api/projects - Get all projects
 export async function GET() {
@@ -32,15 +33,15 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { title, label, description, bullets, tech, github } = body;
-
-    // Validate required fields
-    if (!title || !label || !description || !bullets || !tech) {
+    const validation = validateProjectInput(body, "create");
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: validation.error },
         { status: 400 }
       );
     }
+
+    const { title, label, description, bullets, tech, github } = validation.data;
 
     const newProject = addProject({
       title,

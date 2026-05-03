@@ -1,24 +1,10 @@
 "use client";
 
 import { useRef, useMemo, useState, useEffect } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useTheme } from "./ThemeProvider";
-
-/* ──── Hook: skip rendering on mobile ──── */
-function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 640px)");
-    setIsDesktop(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  return isDesktop;
-}
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 /* ──── Hook: pause canvas when hero scrolls out of view ──── */
 function useHeroVisible(ref: React.RefObject<HTMLDivElement | null>) {
@@ -210,13 +196,21 @@ function Planet({
 function DustRing({ radius = 3.5, count = 80 }: { radius?: number; count?: number }) {
   const ref = useRef<THREE.Points>(null!);
 
+  const pseudoRandom = (seed: number) => {
+    const x = Math.sin(seed * 12.9898) * 43758.5453;
+    return x - Math.floor(x);
+  };
+
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
-      const r = radius + (Math.random() - 0.5) * 0.6;
+      const jitterA = pseudoRandom(i + radius) - 0.5;
+      const jitterR = pseudoRandom(i + count * 2 + radius) - 0.5;
+      const jitterY = pseudoRandom(i + count * 5 + radius) - 0.5;
+      const angle = (i / count) * Math.PI * 2 + jitterA * 0.3;
+      const r = radius + jitterR * 0.6;
       pos[i * 3] = Math.cos(angle) * r;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 0.15;
+      pos[i * 3 + 1] = jitterY * 0.15;
       pos[i * 3 + 2] = Math.sin(angle) * r;
     }
     return pos;
@@ -348,7 +342,7 @@ function SolarSystem({ isLight }: { isLight: boolean }) {
 export default function HeroScene() {
   const { theme } = useTheme();
   const isLight = theme === "light";
-  const isDesktop = useIsDesktop();
+  const isDesktop = useMediaQuery("(min-width: 640px)", false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isVisible = useHeroVisible(containerRef);
 

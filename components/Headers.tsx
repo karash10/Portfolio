@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { personal } from "@/data/portfolio";
 import { useTheme } from "./ThemeProvider";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 /* ──── Animated Sun/Moon toggle ──── */
 function ThemeToggle() {
@@ -79,6 +81,8 @@ function useActiveSection(sectionIds: string[]) {
 
         if (visible.length > 0) {
           setActiveId(visible[0].target.id);
+        } else {
+          setActiveId("");
         }
       },
       { rootMargin: "-20% 0px -60% 0px", threshold: [0, 0.25, 0.5] }
@@ -99,16 +103,42 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   const navLinks = [
-    { label: "Projects", href: "#projects", sectionId: "projects" },
-    { label: "Skills", href: "#skills", sectionId: "skills" },
-    { label: "Experience", href: "#experience", sectionId: "experience" },
-    { label: "Contact", href: "#contact", sectionId: "contact" },
+    { label: "Projects", href: "/projects" },
+    { label: "Skills", href: "/skills" },
+    { label: "Experience", href: "/#experience", sectionId: "experience" },
+    { label: "Contact", href: "/#contact", sectionId: "contact" },
   ];
 
-  const sectionIds = navLinks.map((l) => l.sectionId);
+  const sectionIds = navLinks
+    .map((l) => l.sectionId)
+    .filter((id): id is string => Boolean(id));
   const activeSection = useActiveSection(sectionIds);
+
+  const isLinkActive = useCallback(
+    (link: { href: string; sectionId?: string }) => {
+      if (activeSection) {
+        if (link.sectionId) {
+          return activeSection === link.sectionId;
+        }
+        return false;
+      }
+
+      if (link.sectionId) {
+        return false;
+      }
+      if (link.href === "/projects") {
+        return pathname.startsWith("/projects");
+      }
+      if (link.href === "/skills") {
+        return pathname.startsWith("/skills");
+      }
+      return pathname === link.href;
+    },
+    [activeSection, pathname]
+  );
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -169,38 +199,38 @@ export default function Header() {
         <nav className="site-container">
           <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0">
-              <a href="#" className="text-[var(--text-strong)] font-semibold tracking-tight">
+              <Link href="/" className="flex items-center gap-3 text-[var(--text-strong)] font-semibold tracking-tight leading-none">
                 <span className="section-title text-xl sm:text-2xl">K Harshit</span>
-                <span className="ml-3 hidden sm:inline-flex items-center gap-2 px-3 py-1 pill kbd text-[0.7rem]">
+                <span className="hidden sm:inline-flex items-center gap-2 px-3 py-1 pill kbd text-[0.7rem]">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--good)] opacity-75" />
                     <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[var(--good)]" />
                   </span>
                   Open to work
                 </span>
-              </a>
+              </Link>
             </div>
 
             <div className="hidden sm:ml-6 sm:flex sm:items-center sm:gap-1">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.href}
                   href={link.href}
                   className={`relative px-3 py-2 rounded-full text-sm font-medium transition-colors ${
-                    activeSection === link.sectionId
+                    isLinkActive(link)
                       ? "text-[var(--text-strong)]"
                       : "text-[var(--muted)] hover:text-[var(--text-strong)] hover:bg-[var(--surface-0)]"
                   }`}
                 >
                   {link.label}
-                  {activeSection === link.sectionId && (
+                  {isLinkActive(link) && (
                     <motion.span
                       layoutId="nav-indicator"
                       className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-5 rounded-full bg-[var(--accent)]"
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
                   )}
-                </a>
+                </Link>
               ))}
             </div>
 
@@ -265,18 +295,18 @@ export default function Header() {
             <div className="site-container py-3">
               <div className="glass rounded-2xl p-3">
                 {navLinks.map((link) => (
-                  <a
+                  <Link
                     key={link.href}
                     href={link.href}
                     onClick={closeMobileMenu}
                     className={`block px-4 py-3 rounded-xl text-base font-medium transition-colors ${
-                      activeSection === link.sectionId
+                      isLinkActive(link)
                         ? "text-[var(--text-strong)] bg-[var(--surface-0)]"
                         : "text-[var(--muted)] hover:text-[var(--text-strong)] hover:bg-[var(--surface-0)]"
                     }`}
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ))}
 
                 <div className="pt-3">

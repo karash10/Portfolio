@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useTheme } from "./ThemeProvider";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 /*
   Global background that renders behind every section:
@@ -41,29 +42,14 @@ function StarsCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
   const themeRef = useRef(theme);
-  themeRef.current = theme;
-
-  // Only render stars on desktop (≥768px) for performance
-  // Start as true for SSR to avoid hydration mismatch, then check client-side
-  const [isDesktop, setIsDesktop] = useState(true);
-  const [mounted, setMounted] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)", true);
 
   useEffect(() => {
-    setMounted(true);
-    const checkDesktop = () => {
-      setIsDesktop(window.matchMedia("(min-width: 768px)").matches);
-    };
-    
-    checkDesktop();
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
-    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    mediaQuery.addEventListener("change", handler);
-    
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
+    themeRef.current = theme;
+  }, [theme]);
 
   useEffect(() => {
-    if (!mounted || !isDesktop) return; // Skip canvas rendering on mobile or during SSR
+    if (!isDesktop) return;
     
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -116,7 +102,6 @@ function StarsCanvas() {
 
         // Height increased — keep existing stars, add new ones for the extended area
         if (newH > prevHeight) {
-          const extraArea = newW * (newH - prevHeight);
           const targetTotal = Math.min(Math.floor(newW * newH * DENSITY), MAX_STARS);
           const newCount = Math.max(0, targetTotal - stars.length);
           for (let i = 0; i < newCount; i++) {
@@ -198,13 +183,8 @@ function StarsCanvas() {
       window.removeEventListener("resize", onResize);
       observer.disconnect();
     };
-  }, [mounted, isDesktop]);
+  }, [isDesktop]);
 
-  // Don't render canvas element at all on mobile (but render during SSR to avoid hydration mismatch)
-  if (!mounted) {
-    return <canvas className="pointer-events-none fixed inset-0 z-0 opacity-0" aria-hidden="true" />;
-  }
-  
   if (!isDesktop) return null;
 
   return (

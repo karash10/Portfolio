@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function AdminLoginPage() {
@@ -24,7 +25,7 @@ export default function AdminLoginPage() {
             router.push("/admin/dashboard");
             return;
           }
-        } catch (e) {
+        } catch {
           // Token invalid, continue to login
         }
       }
@@ -53,7 +54,7 @@ export default function AdminLoginPage() {
       } else {
         setError(data.error || "Invalid password");
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -115,12 +116,12 @@ export default function AdminLoginPage() {
           </form>
 
           <div className="mt-6 text-center">
-            <a
+            <Link
               href="/"
               className="text-sm text-[var(--muted)] hover:text-[var(--text)] transition-colors"
             >
               &larr; Back to site
-            </a>
+            </Link>
           </div>
         </div>
       </div>

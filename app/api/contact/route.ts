@@ -3,10 +3,27 @@ import { NextRequest, NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function normalizeText(value: unknown): string {
+  if (typeof value !== "string") return "";
+  return value.trim();
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, message, website } = body;
+    const name = normalizeText(body?.name);
+    const email = normalizeText(body?.email);
+    const message = normalizeText(body?.message);
+    const website = normalizeText(body?.website);
 
     // Honeypot check - if filled, it's likely a bot
     // Return success to not alert the bot, but don't actually send email
@@ -40,6 +57,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Send email using Resend
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
+
     const data = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
       to: "kappalaharshith@gmail.com",
@@ -120,24 +141,24 @@ export async function POST(request: NextRequest) {
               
               <div class="field">
                 <div class="label">From</div>
-                <div class="value">${name}</div>
+                <div class="value">${safeName}</div>
               </div>
               
               <div class="field">
                 <div class="label">Email Address</div>
                 <div class="value">
-                  <a href="mailto:${email}" style="color: #667eea; text-decoration: none;">${email}</a>
+                  <a href="mailto:${safeEmail}" style="color: #667eea; text-decoration: none;">${safeEmail}</a>
                 </div>
               </div>
               
               <div class="field">
                 <div class="label">Message</div>
-                <div class="message-box">${message.replace(/\n/g, '<br>')}</div>
+                <div class="message-box">${safeMessage}</div>
               </div>
               
               <div class="footer">
                 <p>This message was sent from your portfolio contact form.</p>
-                <p>Reply directly to this email to respond to ${name}.</p>
+                <p>Reply directly to this email to respond to ${safeName}.</p>
               </div>
             </div>
           </body>

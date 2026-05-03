@@ -14,7 +14,7 @@ const tagColor: Record<string, string> = {
 
 export default function About() {
   return (
-    <SectionReveal id="skills" className="relative py-24 sm:py-32">
+    <SectionReveal id="skills" className="relative py-20 sm:py-24">
       <FloatingPlanets section="skills" />
       <div className="site-container">
         <Reveal as="h2" className="section-title text-4xl sm:text-5xl text-center text-[var(--text-strong)]">
@@ -25,7 +25,7 @@ export default function About() {
         </Reveal>
 
         <motion.div
-          className="mt-14 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          className="mt-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
           variants={stagger(0.07, 0.1)}
           initial="hidden"
           whileInView="show"

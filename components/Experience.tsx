@@ -12,96 +12,98 @@ import FloatingPlanets from "./FloatingPlanets";
 
 export default function Experience() {
   return (
-    <SectionReveal id="experience" className="relative py-24 sm:py-32">
+    <SectionReveal id="experience" className="relative py-20 sm:py-24">
       <FloatingPlanets section="experience" />
       <div className="site-container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Experience column — appears first on all screens */}
-          <motion.div variants={slideLeft} className="order-1">
-            <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">
-              Experience
-            </Reveal>
+        <motion.div variants={slideLeft}>
+          <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">
+            Experience
+          </Reveal>
 
-            <motion.div className="space-y-6" variants={stagger(0.1)}>
-              {experience.map((exp) => (
-                <motion.div
-                  key={exp.title}
-                  variants={fadeUp}
-                  className="glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
-                    <div>
-                      <h3 className="text-lg font-semibold text-[var(--text-strong)]">{exp.title}</h3>
-                      <p className="text-[var(--muted-2)]">{exp.org}</p>
-                    </div>
-                    <span className="pill kbd px-3 py-1 text-[0.72rem] shrink-0 self-start">
-                      {exp.period}
-                    </span>
+          <motion.div
+            className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+            variants={stagger(0.1)}
+          >
+            {experience.map((exp) => (
+              <motion.div
+                key={exp.title}
+                variants={fadeUp}
+                className="glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-[var(--text-strong)]">{exp.title}</h3>
+                    <p className="text-[var(--muted-2)]">{exp.org}</p>
                   </div>
+                  <span className="pill kbd px-3 py-1 text-[0.72rem] shrink-0 self-start">
+                    {exp.period}
+                  </span>
+                </div>
 
-                  <ul className="mt-4 space-y-2.5">
-                    {exp.bullets.map((b, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-sm text-[var(--muted)] leading-relaxed">
-                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--accent)] opacity-60 shrink-0" />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
+                {exp.paperLink && (
+                  <a
+                    href={exp.paperLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-[var(--accent)] hover:text-[var(--text-strong)] transition-colors"
+                  >
+                    View paper
+                    <span aria-hidden="true">&rarr;</span>
+                  </a>
+                )}
 
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {exp.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="tag px-2.5 py-0.5 rounded-full text-[0.68rem] font-semibold"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+                <ul className="mt-4 space-y-2.5">
+                  {exp.bullets.map((b, i) => (
+                    <li key={i} className="flex items-start gap-2.5 text-sm text-[var(--muted)] leading-relaxed">
+                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--accent)] opacity-60 shrink-0" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+
+              </motion.div>
+            ))}
           </motion.div>
+        </motion.div>
 
-          {/* Education column — appears second on mobile (right after Experience) */}
-          <motion.div variants={slideRight} className="order-2 lg:order-2">
-            <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">
-              Education
-            </Reveal>
+        <motion.div variants={slideRight} className="mt-10">
+          <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">
+            Education
+          </Reveal>
 
-            <motion.div className="space-y-6" variants={stagger(0.1)}>
-              {education.map((edu) => (
-                <motion.div
-                  key={edu.degree}
-                  variants={fadeUp}
-                  className="glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
-                    <div>
-                      <h3 className="text-lg font-semibold text-[var(--text-strong)]">{edu.degree}</h3>
-                      <p className="text-[var(--muted-2)]">{edu.institution}, {edu.location}</p>
-                    </div>
-                    <span className="pill kbd px-3 py-1 text-[0.72rem] shrink-0 self-start">
-                      {edu.period}
-                    </span>
+          <motion.div className="grid grid-cols-1 gap-6" variants={stagger(0.1)}>
+            {education.map((edu) => (
+              <motion.div
+                key={edu.degree}
+                variants={fadeUp}
+                className="glass rounded-[var(--radius-xl)] p-6 hover:border-[var(--stroke-2)] transition-colors"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-[var(--text-strong)]">{edu.degree}</h3>
+                    <p className="text-[var(--muted-2)]">{edu.institution}, {edu.location}</p>
                   </div>
-                  <div className="mt-4 flex items-center gap-4">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-bold text-[var(--text-strong)]">{edu.cgpa}</span>
-                      <span className="kbd text-[0.72rem] text-[var(--muted-3)]">CGPA</span>
-                    </div>
-                    <div className="h-8 w-px bg-[var(--divider)]" />
-                    <div className="tag-emerald px-3 py-1 rounded-full text-xs font-semibold">
-                      On track
-                    </div>
+                  <span className="pill kbd px-3 py-1 text-[0.72rem] shrink-0 self-start">
+                    {edu.period}
+                  </span>
+                </div>
+                <div className="mt-4 flex items-center gap-4">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-bold text-[var(--text-strong)]">{edu.cgpa}</span>
+                    <span className="kbd text-[0.72rem] text-[var(--muted-3)]">CGPA</span>
                   </div>
-                </motion.div>
-              ))}
-            </motion.div>
+                  <div className="h-8 w-px bg-[var(--divider)]" />
+                  <div className="tag-emerald px-3 py-1 rounded-full text-xs font-semibold">
+                    On track
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
+        </motion.div>
 
-          {/* Achievements — third on mobile */}
-          <motion.div variants={slideLeft} className="order-3 lg:order-3">
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <motion.div variants={slideLeft}>
             <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">
               Achievements
             </Reveal>
@@ -122,8 +124,7 @@ export default function Experience() {
             </motion.div>
           </motion.div>
 
-          {/* Certifications — fourth on mobile */}
-          <motion.div variants={slideRight} className="order-4 lg:order-4">
+          <motion.div variants={slideRight}>
             <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)] mb-8">
               Certifications
             </Reveal>

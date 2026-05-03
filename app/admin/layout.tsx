@@ -42,7 +42,7 @@ export default function AdminLayout({
           localStorage.removeItem("admin_token");
           router.push("/admin");
         }
-      } catch (e) {
+      } catch {
         localStorage.removeItem("admin_token");
         router.push("/admin");
       } finally {

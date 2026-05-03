@@ -84,7 +84,7 @@ export default function Footer() {
   return (
     <SectionReveal id="contact" as="footer" className="relative">
       <FloatingPlanets section="footer" />
-      <div className="site-container py-24 sm:py-32">
+      <div className="site-container py-16 sm:py-20">
         <div className="max-w-2xl mx-auto text-center">
           <Reveal as="h2" className="section-title text-3xl sm:text-4xl text-[var(--text-strong)]">
             Get In Touch
@@ -96,7 +96,7 @@ export default function Footer() {
           </Reveal>
 
           <Reveal>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-6 flex justify-center">
               <a
                 href={personal.calLink}
                 target="_blank"
@@ -111,7 +111,7 @@ export default function Footer() {
 
           {/* Contact Form */}
           <Reveal>
-            <form onSubmit={handleSubmit} className="mt-12 max-w-lg mx-auto">
+            <form onSubmit={handleSubmit} className="mt-8 max-w-lg mx-auto">
               <div className="glass p-8 rounded-2xl border border-[var(--stroke-1)]">
                 {/* Honeypot Field - Hidden from humans, catches bots */}
                 <input
@@ -267,7 +267,7 @@ export default function Footer() {
 
           {/* Social Icons */}
           <motion.div
-            className="mt-10 flex justify-center items-center gap-4"
+            className="mt-8 flex justify-center items-center gap-4"
             variants={stagger(0.08, 0.3)}
           >
             {socials.map((s) => (
@@ -288,7 +288,7 @@ export default function Footer() {
           </motion.div>
 
           <Reveal>
-            <div className="mt-12 pt-8 border-t border-[var(--divider)]">
+            <div className="mt-10 pt-6 border-t border-[var(--divider)]">
               <p className="text-sm text-[var(--muted-3)]">
                 &copy; {new Date().getFullYear()} {personal.name}.
               </p>

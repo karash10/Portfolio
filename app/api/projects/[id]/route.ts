@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProjectById, updateProject, deleteProject } from "@/lib/projects";
+import { validateProjectInput } from "@/lib/projectValidation";
 
 // GET /api/projects/[id] - Get a single project
 export async function GET(
@@ -45,7 +46,15 @@ export async function PUT(
 
     const { id } = await params;
     const body = await request.json();
-    const { title, label, description, bullets, tech, github } = body;
+    const validation = validateProjectInput(body, "update");
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: validation.error },
+        { status: 400 }
+      );
+    }
+
+    const { title, label, description, bullets, tech, github } = validation.data;
 
     const updatedProject = updateProject(id, {
       title,

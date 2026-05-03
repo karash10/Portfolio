@@ -33,6 +33,7 @@ export const experience = [
     org: "Prepairo",
     location: "Remote",
     period: "Mar 2026 - May 2026",
+    paperLink: "",
     bullets: [
       "Served as the primary backend intern on a production AI tutoring platform, contributing across API design, AI pipeline integration, cloud deployment, and CI/CD.",
       "Owned RAG and LLM pipeline infrastructure, including vector search and multi-provider orchestration (Claude, OpenAI, Gemini).",
@@ -46,6 +47,7 @@ export const experience = [
     org: "CCNCS, PES University",
     location: "Karnataka, India",
     period: "June 2025 - July 2025",
+    paperLink: "https://drive.google.com/file/d/1vf7L05lnyCRxUUqpWhzi3zmza6Gd83kk/view?usp=sharing",
     bullets: [
       "Designed XJailGuard, a modular LLM security framework to detect multi-turn and cross-lingual prompt injection attacks in transformer-based models.",
       "Built multilingual classification pipelines using PyTorch and Hugging Face, incorporating sliding-window contextual memory for adversarial intent detection.",

@@ -4,7 +4,8 @@ import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { personal } from "@/data/portfolio";
 import { SectionReveal, Reveal, stagger } from "./Motion";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 // Lazy-load the 3D scene so it doesn't block SSR or first paint
 // Only load on desktop (≥768px) for performance
@@ -14,32 +15,14 @@ const HeroScene = dynamic(() => import("./HeroScene"), {
 });
 
 export default function Hero() {
-  // Only load 3D scene on desktop to save ~200KB bundle on mobile
-  // Start as true for SSR to avoid hydration issues
-  const [shouldLoadScene, setShouldLoadScene] = useState(true);
-  const [mounted, setMounted] = useState(false);
-  
-  useEffect(() => {
-    setMounted(true);
-    const checkDesktop = () => {
-      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-      setShouldLoadScene(isDesktop);
-    };
-    
-    checkDesktop();
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
-    const handler = (e: MediaQueryListEvent) => setShouldLoadScene(e.matches);
-    mediaQuery.addEventListener("change", handler);
-    
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
+  const shouldLoadScene = useMediaQuery("(min-width: 768px)", true);
   
   return (
     <SectionReveal
       className="relative min-h-[100dvh] flex items-center"
     >
-      {/* 3D Scene (behind text) - only on desktop, after mount to avoid hydration issues */}
-      {mounted && shouldLoadScene && <HeroScene />}
+      {/* 3D Scene (behind text) - only on desktop */}
+      {shouldLoadScene && <HeroScene />}
 
       {/* Soft vignette behind text for readability — no hard edges */}
       <div
@@ -87,15 +70,19 @@ export default function Hero() {
 
             <Reveal>
               <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#projects" className="btn btn-primary shine w-full sm:w-auto">
+                <Link href="/projects" className="btn btn-primary shine w-full sm:w-auto">
                   View my work
-                  <span aria-hidden="true">&darr;</span>
-                </a>
+                  <span aria-hidden="true">&rarr;</span>
+                </Link>
+                <Link href="/skills" className="btn btn-primary shine w-full sm:w-auto">
+                  View Skills
+                  <span aria-hidden="true">&rarr;</span>
+                </Link>
                 <a
                   href={personal.resumeLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-secondary w-full sm:w-auto"
+                  className="btn btn-primary shine w-full sm:w-auto"
                 >
                   View Resume
                   <span aria-hidden="true">&#8599;</span>
@@ -107,30 +94,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
-        aria-hidden="true"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2"
-        >
-          <span className="kbd text-[0.65rem] text-[var(--muted-3)]">scroll</span>
-          <svg
-            className="w-5 h-5 text-[var(--muted-3)]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7" />
-          </svg>
-        </motion.div>
-      </motion.div>
     </SectionReveal>
   );
 }

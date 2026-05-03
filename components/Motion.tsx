@@ -1,29 +1,24 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { type ReactNode, useState, useEffect } from "react";
+import { type ReactNode, useSyncExternalStore } from "react";
 
 // ── Detect mobile for simplified animations ──
 function useIsMobile() {
-  // Start as false for SSR to avoid hydration mismatch
-  const [isMobile, setIsMobile] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  
-  useEffect(() => {
-    setMounted(true);
-    const checkMobile = () => {
-      setIsMobile(window.matchMedia("(max-width: 767px)").matches);
-    };
-    
-    checkMobile();
+  const subscribe = (callback: () => void) => {
+    if (typeof window === "undefined") return () => {};
     const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mediaQuery.addEventListener("change", handler);
-    
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
-  
-  return { isMobile: mounted && isMobile, mounted };
+    mediaQuery.addEventListener("change", callback);
+    return () => mediaQuery.removeEventListener("change", callback);
+  };
+
+  const getSnapshot = () => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 767px)").matches;
+  };
+
+  const isMobile = useSyncExternalStore(subscribe, getSnapshot, () => false);
+  return { isMobile };
 }
 
 // ── Shared easing & durations ──

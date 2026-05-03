@@ -23,7 +23,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
         } else {
           setError("Project not found");
         }
-      } catch (err) {
+      } catch {
         setError("Failed to load project");
       } finally {
         setIsFetching(false);
@@ -53,7 +53,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
         const errorData = await res.json();
         setError(errorData.error || "Failed to update project");
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
