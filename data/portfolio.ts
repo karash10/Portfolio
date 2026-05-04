@@ -5,7 +5,7 @@ export const personal = {
   name: "K Harshit",
   role: "Backend Engineer | LLM Security Researcher",
   summary:
-    "Computer Science undergrad at PES University with production experience building AI-powered backend systems and a research specialization in LLM security. Building at the intersection of backend engineering and AI security — scalable async APIs, RAG pipelines, adversarial ML, and prompt injection defense.",
+    "Computer Science undergrad at PES University with production experience building AI-powered backend systems and a research specialization in LLM security. Focused on building secure intelligent systems at the intersection of backend engineering, AI, and cybersecurity — including scalable async APIs, RAG pipelines, adversarial ML, and prompt injection defense.",
   email: "kappalaharshith@gmail.com",
   phone: "+91-9845198405",
   github: "https://github.com/karash10",

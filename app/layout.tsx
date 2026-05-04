@@ -25,9 +25,9 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "K Harshit — Backend Engineer & LLM Security Researcher",
+  title: "K Harshit",
   description:
-    "Computer Science undergrad at PES University with production experience building AI-powered backend systems and a research specialization in LLM security.",
+    "Computer Science undergrad at PES University focused on building secure intelligent systems at the intersection of backend engineering, AI, and cybersecurity.",
   keywords: [
     "K Harshit",
     "LLM Security",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "K Harshit — Backend Engineer & LLM Security Researcher",
     description:
-      "Building at the intersection of backend engineering and AI security — async APIs, RAG pipelines, and prompt injection defense.",
+      "Focused on building secure intelligent systems at the intersection of backend engineering, AI, and cybersecurity — including scalable async APIs, RAG pipelines, and prompt injection defense.",
     url: "https://karash.me",
     siteName: "K Harshit Portfolio",
     type: "website",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "K Harshit — Backend Engineer & LLM Security Researcher",
     description:
-      "Building at the intersection of backend engineering and AI security — async APIs, RAG pipelines, and prompt injection defense.",
+      "Focused on building secure intelligent systems at the intersection of backend engineering, AI, and cybersecurity — including scalable async APIs, RAG pipelines, and prompt injection defense.",
   },
   robots: "index, follow",
 };
